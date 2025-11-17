@@ -37,13 +37,14 @@
       flex-direction: column;
       align-items: center;
       z-index: 2;
+      gap: 18px;
     }
 
     .login-container img {
       width: 100px;
       height: auto;
       border-radius: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       background: #ffffff1a;
       border: 1.5px solid #ffffff33;
       padding: 6px;
@@ -52,25 +53,74 @@
     }
 
     h2 {
-      margin: 0 0 20px;
+      margin: 0 0 10px;
       font-weight: 600;
     }
 
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 8px;
-      outline: none;
-      background: rgba(255, 255, 255, 0.2);
+    /* Pixel Input Styles (Uiverse) */
+    .uiverse-pixel-input-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      font-family: "Courier New", monospace;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1em;
+      width: 100%;
     }
 
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.8);
+    .uiverse-pixel-label {
+      text-shadow: 1px 1px #000;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-align: left;
+    }
+
+    .uiverse-pixel-input {
+      appearance: none;
+      border: none;
+      padding: 0.6em;
+      font-size: 1em;
+      font-family: "Courier New", monospace;
+      color: #fff;
+      background: #ff6b35;
+      image-rendering: pixelated;
+      box-shadow:
+        0 0 0 0.15em #000,
+        0 0 0 0.3em #fff,
+        0 0 0 0.45em #000,
+        0 0.3em 0 0 #d1451e,
+        0 0.3em 0 0.15em #000;
+      outline: none;
+      transition: all 0.15s steps(1);
+      text-shadow: 1px 1px #000;
+      width: 100%;
+    }
+
+    .uiverse-pixel-input::placeholder {
+      color: #fff;
+      opacity: 0.6;
+    }
+
+    .uiverse-pixel-input:focus {
+      background: #ff8c42;
+      box-shadow:
+        0 0 0 0.15em #000,
+        0 0 0 0.3em #fff,
+        0 0 0 0.45em #000,
+        0 0.2em 0 0 #00cc66,
+        0 0.2em 0 0.15em #000;
+    }
+
+    .uiverse-pixel-input:hover {
+      animation: uiverse-glitch-input 0.3s steps(2) infinite;
+    }
+
+    @keyframes uiverse-glitch-input {
+      0% { transform: translate(0); }
+      25% { transform: translate(-1px, 1px); }
+      50% { transform: translate(1px, -1px); }
+      75% { transform: translate(-1px, -1px); }
+      100% { transform: translate(0); }
     }
 
     button {
@@ -84,11 +134,10 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s;
+      margin-top: 10px;
     }
 
-    button:hover {
-      background: #e57c1f;
-    }
+    button:hover { background: #e57c1f; }
 
     .orbs { position: fixed; inset: -20vh -20vw; z-index: 0; overflow: hidden; }
     .orb { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .35; mix-blend-mode: screen; }
@@ -111,8 +160,17 @@
   <div class="login-container">
     <img src="https://i.imghippo.com/files/mCnr9231SnY.png" alt="SISCO Logo" />
     <h2>Login</h2>
-    <input type="text" placeholder="Username" />
-    <input type="password" placeholder="Password" />
+
+    <div class="uiverse-pixel-input-wrapper">
+      <label class="uiverse-pixel-label" for="username">USERNAME</label>
+      <input placeholder="Enter name..." class="uiverse-pixel-input" id="username" type="text" />
+    </div>
+
+    <div class="uiverse-pixel-input-wrapper">
+      <label class="uiverse-pixel-label" for="password">PASSWORD</label>
+      <input placeholder="Enter password..." class="uiverse-pixel-input" id="password" type="password" />
+    </div>
+
     <button type="button">Sign In</button>
   </div>
 </body>
