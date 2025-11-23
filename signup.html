@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interny – Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #f5f7ff;
+      --bg-card: #ffffff;
+      --bg-soft: #eef2ff;
+      --primary: #4f46e5;
+      --primary-soft: rgba(79, 70, 229, 0.07);
+      --primary-strong: #3730a3;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --radius-xl: 24px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --transition-fast: 180ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e0e7ff, #f5f7ff 45%, #eef2ff 80%);
+      color: var(--text-main);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Blobs */
+    .blob {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.55;
+      z-index: -2;
+      pointer-events: none;
+      animation: blob-float 20s infinite alternate ease-in-out;
+    }
+
+    .blob.blob-1 {
+      top: -80px;
+      left: -40px;
+      background: #a5b4fc;
+    }
+
+    .blob.blob-2 {
+      bottom: -120px;
+      right: -60px;
+      background: #fecaca;
+      animation-delay: 5s;
+    }
+
+    .blob.blob-3 {
+      top: 40%;
+      left: 55%;
+      background: #bfdbfe;
+      animation-delay: 10s;
+    }
+
+    @keyframes blob-float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.05); }
+      100% { transform: translate(-25px, 15px) scale(0.98); }
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(245,247,255,0.95), rgba(245,247,255,0.8));
+      border-bottom: 1px solid rgba(209,213,219,0.6);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(from 200deg, #4f46e5, #a855f7, #f97316, #4f46e5);
+      padding: 2px;
+      box-shadow: 0 10px 35px rgba(79, 70, 229, 0.5);
+    }
+
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 20%, #eef2ff, #1d2443);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-text-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #111827;
+    }
+
+    .brand-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #4b5563;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(209,213,219,0.9);
+      background: rgba(248,250,252,0.9);
+      transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      background: #ffffff;
+      box-shadow: 0 10px 24px rgba(148,163,184,0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      border: none;
+      outline: none;
+      border-radius: 999px;
+      padding: 8px 18px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 16px 35px rgba(79, 70, 229, 0.38);
+      transition: transform 160ms ease-out, box-shadow 160ms ease-out, filter 160ms ease-out;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      filter: brightness(1.04);
+      box-shadow: 0 18px 40px rgba(30, 64, 175, 0.45);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) scale(0.99);
+      box-shadow: 0 10px 22px rgba(55, 65, 81, 0.3);
+    }
+
+    /* Page layout */
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px 40px;
+    }
+
+    .auth-wrapper {
+      max-width: 980px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    /* Left info */
+    .auth-info-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--primary-strong);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .auth-info-eyebrow span {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.3);
+    }
+
+    .auth-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 26px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      color: #020617;
+    }
+
+    .auth-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .auth-points {
+      list-style: none;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .auth-points li {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      align-items: flex-start;
+    }
+
+    .auth-points-bullet {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--primary-strong);
+      margin-top: 2px;
+    }
+
+    /* Right card */
+    .auth-card {
+      background: rgba(255,255,255,0.98);
+      border-radius: var(--radius-xl);
+      padding: 20px 18px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(226,232,240,0.95);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-card::before {
+      content: "";
+      position: absolute;
+      inset: -80px;
+      background: radial-gradient(circle at top, rgba(79,70,229,0.18), transparent 60%);
+      opacity: 0;
+      transition: opacity 200ms ease-out;
+      pointer-events: none;
+    }
+
+    .auth-card:hover::before {
+      opacity: 1;
+    }
+
+    .auth-card-header {
+      margin-bottom: 14px;
+    }
+
+    .auth-card-title {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 4px;
+      color: #0f172a;
+    }
+
+    .auth-card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .auth-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      color: #4b5563;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 12px;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .input {
+      border-radius: 12px;
+      border: 1px solid rgba(209,213,219,0.9);
+      padding: 9px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      background: rgba(248,250,252,0.95);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .input::placeholder {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .input:focus {
+      border-color: rgba(129,140,248,0.95);
+      box-shadow: 0 0 0 1px rgba(129,140,248,0.6), 0 10px 22px rgba(129,140,248,0.25);
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .form-row-inline {
+      display: flex;
+      gap: 10px;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .auth-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .auth-footer a {
+      color: var(--primary-strong);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer {
+      font-size: 11px;
+      color: #9ca3af;
+      text-align: center;
+      padding: 12px 20px 20px;
+      border-top: 1px solid rgba(209,213,219,0.7);
+      background: rgba(248,250,252,0.9);
+    }
+
+    footer a {
+      color: var(--primary-strong);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+      .auth-wrapper {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 12px;
+      }
+      .page {
+        padding: 20px 16px 30px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        padding-inline: 14px;
+      }
+      .page {
+        padding-inline: 14px;
+      }
+      .auth-title {
+        font-size: 22px;
+      }
+    }
+    
+    /* Success modal backdrop */
+    .success-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease-out;
+    }
+
+    /* Show state */
+    .success-modal-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Modal card */
+    .success-modal {
+      background: var(--bg-card, #ffffff);
+      border-radius: 24px;
+      padding: 24px 26px 22px;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.25);
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      border: 1px solid var(--border-subtle, #e5e7eb);
+    }
+
+    /* Close button */
+    .success-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      border: none;
+      background: transparent;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      color: #9ca3af;
+    }
+
+    /* Icon */
+    .success-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      margin: 4px auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-soft, rgba(79, 70, 229, 0.08));
+    }
+
+    .success-icon-check {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(
+        135deg,
+        var(--primary, #4f46e5),
+        var(--primary-strong, #3730a3)
+      );
+    }
+
+    /* Text */
+    .success-title {
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main, #0f172a);
+      margin-bottom: 6px;
+    }
+
+    .success-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted, #6b7280);
+      margin-bottom: 18px;
+    }
+
+    /* Buttons */
+    .success-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .success-primary-btn,
+    .success-ghost-btn {
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 120ms ease-out, box-shadow 120ms ease-out,
+        background 120ms ease-out, color 120ms ease-out;
+    }
+
+    .success-primary-btn {
+      background: linear-gradient(
+        135deg,
+        var(--primary, #4f46e5),
+        var(--primary-strong, #3730a3)
+      );
+      color: #ffffff;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.45);
+    }
+
+    .success-primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.5);
+    }
+
+    .success-ghost-btn {
+      background: var(--primary-soft, rgba(79, 70, 229, 0.04));
+      color: var(--primary-strong, #3730a3);
+    }
+
+    .success-ghost-btn:hover {
+      background: rgba(79, 70, 229, 0.09);
+    }
+
+
+  </style>
+</head>
+<body>
+  <!-- Blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-logo">
+          <div class="brand-logo-inner">In</div>
+        </div>
+        <div>
+          <div class="brand-text-title">INTERNY</div>
+          <div class="brand-text-sub">Internship that feels like real work</div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <a href="index.html" class="nav-link">← Back to website</a>
+        <a href="login.html" class="btn-primary">Already registered? Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page content -->
+  <div class="page">
+    <div class="auth-wrapper">
+      <!-- Left info -->
+      <div>
+        <div class="auth-info-eyebrow">
+          CREATE ACCOUNT
+          <span></span>
+        </div>
+        <h1 class="auth-title">Start your Interny journey with a proper profile.</h1>
+        <p class="auth-subtitle">
+          Create your student account so you can receive tasks, track your progress and later
+          log in to view your internship status. Use an email that you check regularly.
+        </p>
+        <ul class="auth-points">
+          <li>
+            <div class="auth-points-bullet">1</div>
+            <div>Fill your basic details so we know who you are and which batch you belong to.</div>
+          </li>
+          <li>
+            <div class="auth-points-bullet">2</div>
+            <div>Later, you’ll use this email & password to log in to your dashboard.</div>
+          </li>
+          <li>
+            <div class="auth-points-bullet">3</div>
+            <div>You can update your info and track your tasks once the dashboard is live.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right card / form -->
+      <div class="auth-card">
+        <div class="auth-card-header">
+          <div class="auth-card-title">Create your Interny account</div>
+          <div class="auth-card-sub">
+            It takes less than a minute. You can always edit your details later.
+          </div>
+        </div>
+
+        <div class="auth-badge-row">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            New batch registrations open
+          </div>
+          <div class="badge-pill">
+            🔒 Your data is used only for Interny communication.
+          </div>
+        </div>
+
+        <form id="signupForm">
+          <div class="form-field">
+            <label for="signupFullName">Full Name</label>
+            <input
+              type="text"
+              id="signupFullName"
+              class="input"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="signupEmail">Email</label>
+            <input
+              type="email"
+              id="signupEmail"
+              class="input"
+              placeholder="Use your active email (college or personal)"
+              required
+            />
+          </div>
+
+          <div class="form-row-inline">
+            <div class="form-field" style="flex:1;">
+              <label for="signupPassword">Password</label>
+              <input
+                type="password"
+                id="signupPassword"
+                class="input"
+                placeholder="Create a password"
+                required
+              />
+            </div>
+            <div class="form-field" style="flex:1;">
+              <label for="signupConfirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="signupConfirmPassword"
+                class="input"
+                placeholder="Re-enter password"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="signupDomain">Preferred Domain (optional)</label>
+            <input
+              type="text"
+              id="signupDomain"
+              class="input"
+              placeholder="Eg. Web Development, Data Analyst, Python, Java"
+            />
+          </div>
+
+          <p class="helper-text">
+            By creating an account, you agree that Interny can contact you regarding your internship,
+            tasks and certificate.
+          </p>
+
+          <button type="submit" class="btn-primary" style="margin-top:6px; align-self:flex-start;">
+            Sign Up
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          <span>Already have an account? <a href="login.html">Login here</a></span>
+          <span>Need help? <a href="mailto:interny@example.com">Contact support</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Interny Internship · Student Sign Up · <a href="index.html">Back to main site</a>
+  </footer>
+
+  <!-- ✅ SUCCESS POPUP (ADD HERE!) -->
+  <div id="signupSuccessModal" class="modal-backdrop" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-icon">✅</div>
+      <h2 class="modal-title">Account created successfully</h2>
+      <p class="modal-text">
+        Your Interny account has been created. You can now log in and continue your internship journey.
+      </p>
+      <button class="success-primary-btn" type="button" style="padding:0;">
+        <a 
+          href="https://www.youtube.com/watch?v=JqLFnz7C_Io&list=RDbP8ATWCvqzw&index=2"
+          target="_blank"
+          style="
+            display:block;
+            width:100%;
+            height:100%;
+            text-decoration:none;
+            color:white;
+            padding:10px 20px;
+          "
+        >
+          Take me to login
+        </a>
+      </button>
+
+
+
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+    <div id="accountSuccessModal" class="success-modal-backdrop">
+      <div class="success-modal">
+        <button class="success-modal-close" id="closeSuccessModal" aria-label="Close">
+          &times;
+        </button>
+
+        <div class="success-icon-wrap">
+          <div class="success-icon-check">✓</div>
+        </div>
+
+        <h2 class="success-title">Account created successfully</h2>
+        <p class="success-text">
+          Your Interny account is ready. You can now log in and start your journey 🚀
+        </p>
+
+        <div class="success-actions">
+          <button id="goToLoginBtn" class="success-primary-btn">
+            Take me to login
+          </button>
+          <button id="successStayBtn" class="success-ghost-btn">
+            Stay on this page
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script src="auth.js"></script>
+
+    <script>
+      document.getElementById("signupForm").addEventListener("submit", handleSignup);
+    </script>
+
+</body>
+</html>

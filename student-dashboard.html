@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interny | Student Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #f5f7ff;
+      --bg-card: #ffffff;
+      --bg-soft: #eef2ff;
+      --primary: #4f46e5;
+      --primary-soft: rgba(79, 70, 229, 0.07);
+      --primary-strong: #3730a3;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --radius-xl: 24px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --transition-fast: 180ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #eef2ff, #e5e9ff 40%, #f5f7ff 70%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(245, 247, 255, 0.8);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .navbar-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: conic-gradient(from 210deg, #4f46e5, #22c55e, #f97316, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-logo::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: inherit;
+      background: radial-gradient(circle at top, #eef2ff, #e5e7eb);
+    }
+
+    .brand-logo span {
+      position: relative;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: "Poppins", system-ui;
+      color: #111827;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-title {
+      font-family: "Poppins", system-ui;
+      font-weight: 600;
+      font-size: 18px;
+      color: #111827;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-chip {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--transition-fast), box-shadow var(--transition-fast),
+                  transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .btn-ghost:hover {
+      background: #f9fafb;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+      border-color: #d1d5db;
+    }
+
+    /* Layout */
+    .main {
+      flex: 1;
+      max-width: 1160px;
+      width: 100%;
+      margin: 18px auto 32px;
+      padding: 0 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Hero / Summary */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.08), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.08), transparent 55%),
+                  var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.24), transparent 60%);
+      top: -100px;
+      right: -80px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .hero-title {
+      font-family: "Poppins", system-ui;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.05);
+      color: #111827;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 360px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .hero-meta span {
+      color: var(--text-muted);
+    }
+
+    .hero-meta strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .hero-meta-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.1);
+      color: #166534;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .hero-body {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .hero-body {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-meta {
+        align-items: flex-start;
+      }
+    }
+
+    /* Progress circle */
+    .progress-shell {
+      width: 140px;
+      height: 140px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0%, rgba(255, 255, 255, 0.9), transparent 55%),
+                  conic-gradient(from 220deg, var(--primary) 0deg, var(--primary) 180deg, #e5e7eb 180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(79, 70, 229, 0.25);
+    }
+
+    .progress-shell::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: inherit;
+      background: rgba(248, 250, 252, 0.95);
+      box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.9);
+    }
+
+    .progress-inner {
+      position: relative;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .progress-value {
+      font-size: 28px;
+      font-weight: 600;
+      font-family: "Poppins", system-ui;
+      color: #111827;
+      line-height: 1.1;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .progress-pill {
+      margin-top: 6px;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.08);
+      color: var(--primary-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .progress-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .hero-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .stat-card {
+      padding: 10px 10px 9px;
+      border-radius: 18px;
+      background: rgba(248, 250, 252, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .stat-pill {
+      margin-top: 2px;
+      font-size: 10px;
+      color: var(--primary-strong);
+      background: rgba(79, 70, 229, 0.06);
+      border-radius: 999px;
+      padding: 2px 7px;
+      display: inline-block;
+    }
+
+    /* Secondary hero: Next Actions */
+    .hero-next {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: var(--shadow-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-next::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.06), transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-next-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-next-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-next-title span.icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .hero-next-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .next-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .next-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12px;
+      padding: 8px 9px;
+      border-radius: 12px;
+      background: rgba(248, 250, 252, 0.85);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+    }
+
+    .next-index {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.08);
+      color: var(--primary-strong);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    .next-text {
+      flex: 1;
+    }
+
+    .next-main {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .next-meta {
+      margin-top: 2px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Grid layout below hero */
+    .grid-main {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 1000px) {
+      .grid-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: 22px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: var(--shadow-subtle);
+      padding: 14px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.06);
+      color: var(--primary-strong);
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Tasks table */
+    .tasks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .task-row {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.3fr) minmax(0, 1.2fr) auto;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: rgba(248, 250, 252, 0.9);
+      align-items: center;
+    }
+
+    @media (max-width: 700px) {
+      .task-row {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+        grid-template-rows: auto auto;
+      }
+
+      .task-row > .task-due {
+        grid-column: 2 / 3;
+      }
+      .task-row > .task-actions {
+        grid-column: 1 / 3;
+        justify-content: flex-start;
+        margin-top: 4px;
+      }
+    }
+
+    .task-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .task-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .task-status-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: #ffffff;
+    }
+
+    .task-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+    }
+
+    .task-due {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .task-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-small {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--primary);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    .btn-small:hover {
+      background: var(--primary-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.35);
+    }
+
+    /* Submissions */
+    .submission-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 8px 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: rgba(248, 250, 252, 0.95);
+      font-size: 12px;
+    }
+
+    .submission-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .submission-task {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .submission-status {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: #ffffff;
+    }
+
+    .submission-feedback {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Skills / badges */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.3fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 700px) {
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .skill-bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+    }
+
+    .skill-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .skill-track {
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), #22c55e);
+      width: 0%;
+      transition: width 0.4s ease-out;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .badge-pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.8);
+      background: rgba(249, 250, 251, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(249, 115, 22, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    /* Sessions / announcements / reflections / certificate */
+    .small-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .small-row {
+      padding: 7px 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: rgba(248, 250, 252, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .small-title {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .small-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .small-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+      flex-wrap: wrap;
+    }
+
+    .tag-pill {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.06);
+      color: var(--primary-strong);
+    }
+
+    .tag-pill-alt {
+      background: rgba(248, 113, 113, 0.06);
+      color: #b91c1c;
+    }
+
+    .tag-pill-neutral {
+      background: rgba(148, 163, 184, 0.16);
+      color: #475569;
+    }
+
+    .link-small {
+      font-size: 11px;
+      color: var(--primary-strong);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link-small:hover {
+      text-decoration: underline;
+    }
+
+    .certificate-card {
+      border-radius: 18px;
+      padding: 10px 10px 9px;
+      border: 1px dashed rgba(148, 163, 184, 0.9);
+      background: linear-gradient(135deg, rgba(248, 250, 252, 0.95), rgba(239, 246, 255, 0.95));
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .certificate-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .certificate-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .certificate-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: radial-gradient(circle at top, #ffffff, #e5e7eb);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .certificate-title {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .certificate-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .certificate-status {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.08);
+      color: #166534;
+    }
+
+    .certificate-status.locked {
+      background: rgba(148, 163, 184, 0.18);
+      color: #475569;
+    }
+
+    .btn-small-outline {
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      padding: 7px 12px;
+      background: #ffffff;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--primary-strong);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .btn-small-outline:hover {
+      background: var(--primary);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.25);
+    }
+
+    /* Empty state */
+    .empty-state {
+      padding: 10px 10px 9px;
+      border-radius: 14px;
+      border: 1px dashed rgba(203, 213, 225, 0.9);
+      background: rgba(248, 250, 252, 0.95);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Loading overlay */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(239, 246, 255, 0.95), rgba(248, 250, 252, 0.98));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .loader-card {
+      background: #ffffff;
+      padding: 16px 18px;
+      border-radius: 22px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+    }
+
+    .loader-spinner {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 3px solid #e5e7eb;
+      border-top-color: var(--primary);
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loader-text-main {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .loader-text-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Error banner */
+    .error-banner {
+      display: none;
+      max-width: 1160px;
+      margin: 10px auto 0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      background: rgba(254, 242, 242, 0.9);
+      color: #991b1b;
+      font-size: 12px;
+      display: none;
+    }
+
+    .error-banner.visible {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loader-card">
+        <div class="loader-spinner"></div>
+        <div>
+          <div class="loader-text-main">Loading your dashboard...</div>
+          <div class="loader-text-sub">Fetching your progress, tasks and submissions.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error banner -->
+    <div id="errorBanner" class="error-banner">
+      <span>⚠️</span>
+      <span id="errorText">Something went wrong. Please refresh.</span>
+    </div>
+
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-inner">
+        <div class="brand">
+          <div class="brand-logo">
+            <span>I</span>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">Interny</div>
+            <div class="brand-subtitle">Student Progress Dashboard</div>
+          </div>
+        </div>
+        <div class="nav-right">
+          <div class="nav-chip">
+            <span class="nav-chip-dot"></span>
+            <span id="studentNameChip">Signed in</span>
+          </div>
+          <button id="btnLogout" class="btn-ghost" type="button">
+            <span>Sign out</span>
+            <span>↗</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Hero -->
+      <section class="hero">
+        <!-- Left: summary -->
+        <div class="hero-card">
+          <div class="hero-header">
+            <div>
+              <h1 class="hero-title" id="heroTitle">
+                Welcome back, <span id="studentName">Student</span>
+                <span class="hero-pill" id="heroDomainPill">Domain: —</span>
+              </h1>
+              <p class="hero-subtitle" id="heroSubtitle">
+                Track your internship journey, complete tasks, and unlock your certificate.
+              </p>
+            </div>
+            <div class="hero-meta">
+              <div><span>Batch&nbsp;</span><strong id="heroBatch">—</strong></div>
+              <div><span>Start&nbsp;</span><strong id="heroStart">—</strong></div>
+              <div><span>End&nbsp;</span><strong id="heroEnd">—</strong></div>
+              <div class="hero-meta-badge" id="heroPhaseBadge">Phase: —</div>
+            </div>
+          </div>
+
+          <div class="hero-body">
+            <div class="progress-shell" id="progressShell">
+              <div class="progress-inner">
+                <div class="progress-value" id="progressValue">0%</div>
+                <div class="progress-label">Overall progress</div>
+                <div class="progress-pill">
+                  <span class="progress-dot"></span>
+                  <span id="progressSummary">Getting started</span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-card">
+                <div class="stat-label">Tasks completed</div>
+                <div class="stat-value" id="statTasksCompleted">0 / 0</div>
+                <div class="stat-pill" id="statTasksPill">No tasks yet</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Hours logged</div>
+                <div class="stat-value"><span id="statHours">0</span> hrs</div>
+                <div class="stat-pill" id="statHoursPill">Log your first hour</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Attendance</div>
+                <div class="stat-value" id="statAttendance">0 / 0</div>
+                <div class="stat-pill" id="statAttendancePill">No sessions yet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Next actions -->
+        <aside class="hero-next">
+          <div class="hero-next-header">
+            <div>
+              <div class="hero-next-title">
+                <span class="icon">⭐</span>
+                Next actions for you
+              </div>
+              <div class="hero-next-sub">Focus on these items today to keep your progress on track.</div>
+            </div>
+          </div>
+          <ul class="next-list" id="nextActionsList">
+            <!-- Filled by JS -->
+          </ul>
+        </aside>
+      </section>
+
+      <!-- Main grid -->
+      <section class="grid-main">
+        <!-- Left column: tasks + submissions + skills/badges -->
+        <div class="grid-col-left">
+          <!-- Tasks -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">
+                  Tasks & Deadlines
+                  <span class="card-badge" id="tasksCountBadge">0 items</span>
+                </div>
+                <div class="card-subtitle">
+                  These are your current internship tasks. Complete them before the due dates.
+                </div>
+              </div>
+            </header>
+            <div class="card-body">
+              <div id="tasksList" class="tasks-list">
+                <!-- Filled by JS -->
+              </div>
+              <div id="tasksEmpty" class="empty-state" style="display:none;">
+                No tasks assigned yet. Once your mentor adds tasks, they’ll appear here.
+              </div>
+            </div>
+          </section>
+
+          <!-- Submissions -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">
+                  Recent Submissions
+                  <span class="card-badge" id="submissionsCountBadge">0 items</span>
+                </div>
+                <div class="card-subtitle">
+                  Track feedback and status for your recent task submissions.
+                </div>
+              </div>
+            </header>
+            <div class="card-body">
+              <div id="submissionsList" class="small-list">
+                <!-- Filled by JS -->
+              </div>
+              <div id="submissionsEmpty" class="empty-state" style="display:none;">
+                You haven’t submitted any tasks yet. Once you submit, they’ll appear here with feedback.
+              </div>
+            </div>
+          </section>
+
+          <!-- Skills & Badges -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">
+                  Skills & Badges
+                </div>
+                <div class="card-subtitle">
+                  See how your skills are growing over time and badges you’ve unlocked.
+                </div>
+              </div>
+            </header>
+            <div class="card-body">
+              <div class="skills-grid">
+                <div>
+                  <div class="skill-bar-row">
+                    <div class="skill-label">
+                      <span>HTML & CSS</span>
+                      <span id="skillHtmlValue">0%</span>
+                    </div>
+                    <div class="skill-track">
+                      <div id="skillHtmlBar" class="skill-fill"></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-row">
+                    <div class="skill-label">
+                      <span>JavaScript</span>
+                      <span id="skillJsValue">0%</span>
+                    </div>
+                    <div class="skill-track">
+                      <div id="skillJsBar" class="skill-fill"></div>
+                    </div>
+                  </div>
+                  <div class="skill-bar-row">
+                    <div class="skill-label">
+                      <span>Communication</span>
+                      <span id="skillCommValue">0%</span>
+                    </div>
+                    <div class="skill-track">
+                      <div id="skillCommBar" class="skill-fill"></div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="badge-list" id="badgesList">
+                    <!-- Filled by JS -->
+                  </div>
+                  <div id="badgesEmpty" class="empty-state" style="margin-top:6px; display:none;">
+                    Complete tasks on time and participate actively to unlock badges.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right column: sessions, reflections, announcements, certificate -->
+        <div class="grid-col-right">
+          <!-- Sessions -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">Upcoming Sessions</div>
+                <div class="card-subtitle">
+                  Live classes and Q&A sessions scheduled for your batch.
+                </div>
+              </div>
+            </header>
+            <div class="card-body">
+              <div id="sessionsList" class="small-list">
+                <!-- Filled by JS -->
+              </div>
+              <div id="sessionsEmpty" class="empty-state" style="display:none;">
+                No upcoming sessions scheduled for now. Check back later or contact your mentor.
+              </div>
+            </div>
+          </section>
+
+          <!-- Weekly reflections -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">Weekly Reflection</div>
+                <div class="card-subtitle">
+                  A quick log of what you learned and achieved this week.
+                </div>
+              </div>
+            </header>
+            <div class="card-body">
+              <div id="reflectionsList" class="small-list">
+                <!-- Filled by JS -->
+              </div>
+              <div id="reflectionsEmpty" class="empty-state" style="display:none;">
+                No weekly reflection submitted yet. Take 5 minutes to write what you learned.
+              </div>
+              <a href="#" class="link-small" onclick="alert('You can link this to a reflections form or page.'); return false;">
+                + Add / update this week’s reflection
+              </a>
+            </div>
+          </section>
+
+          <!-- Announcements & certificate -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">Announcements</div>
+                <div class="card-subtitle">
+                  Important updates from Interny for your batch.
+                </div>
+              </div>
+            </header>
+            <div class="card-body">
+              <div id="announcementsList" class="small-list">
+                <!-- Filled by JS -->
+              </div>
+              <div id="announcementsEmpty" class="empty-state" style="display:none;">
+                No new announcements. You’re all caught up!
+              </div>
+
+              <div class="certificate-card" style="margin-top:10px;">
+                <div class="certificate-top">
+                  <div class="certificate-left">
+                    <div class="certificate-icon">🎓</div>
+                    <div>
+                      <div class="certificate-title">Internship Certificate</div>
+                      <div class="certificate-sub" id="certificateSub">
+                        Complete all required milestones to unlock your certificate.
+                      </div>
+                    </div>
+                  </div>
+                  <div id="certificateStatus" class="certificate-status locked">
+                    Locked
+                  </div>
+                </div>
+                <div style="margin-top:6px; display:flex; justify-content:flex-end; gap:8px;">
+                  <button id="btnCertificate" class="btn-small-outline" type="button" disabled>
+                    Download certificate
+                    <span>⬇</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Firebase + Dashboard Logic -->
+  <script type="module">
+    // ===== Firebase imports (using v11 modular SDK via CDN) =====
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      limit
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // ===== 1. Configure Firebase (PUT YOUR CONFIG HERE) =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1ZS9e5N26B698qHmMkDv7IJBSE88gsWs",
+      authDomain: "interny-portal-f9ef1.firebaseapp.com",
+      projectId: "interny-portal-f9ef1",
+      storageBucket: "interny-portal-f9ef1.firebasestorage.app",
+      messagingSenderId: "371233302014",
+      appId: "1:371233302014:web:a6af15e9a1b4ef72638caf"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loadingOverlay = document.getElementById("loadingOverlay");
+    const errorBanner = document.getElementById("errorBanner");
+    const errorText = document.getElementById("errorText");
+
+    function showError(message) {
+      console.error(message);
+      errorText.textContent = message;
+      errorBanner.classList.add("visible");
+    }
+
+    function hideError() {
+      errorBanner.classList.remove("visible");
+    }
+
+    function hideLoading() {
+      loadingOverlay.style.display = "none";
+    }
+
+    // ===== UI helpers =====
+    function formatDate(ts) {
+      if (!ts) return "—";
+      try {
+        // Firestore Timestamp or JS Date or ISO string
+        const date = ts.toDate ? ts.toDate() : (ts instanceof Date ? ts : new Date(ts));
+        return date.toLocaleDateString(undefined, {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        });
+      } catch {
+        return "—";
+      }
+    }
+
+    function statusColor(status) {
+      const value = (status || "").toLowerCase();
+      if (value === "completed" || value === "approved") {
+        return { dot: "#22c55e", bg: "rgba(22, 163, 74, 0.08)", text: "#166534" };
+      }
+      if (value === "in progress" || value === "under review") {
+        return { dot: "#f97316", bg: "rgba(249, 115, 22, 0.08)", text: "#9a3412" };
+      }
+      if (value === "overdue" || value === "rejected") {
+        return { dot: "#ef4444", bg: "rgba(239, 68, 68, 0.08)", text: "#b91c1c" };
+      }
+      return { dot: "#64748b", bg: "rgba(148, 163, 184, 0.18)", text: "#475569" };
+    }
+
+    function setSkillBar(barEl, labelEl, value) {
+      const v = Math.max(0, Math.min(100, value || 0));
+      barEl.style.width = v + "%";
+      labelEl.textContent = v + "%";
+    }
+
+    function updateProgressCircle(percent) {
+      const val = Math.max(0, Math.min(100, percent || 0));
+      const progressShell = document.getElementById("progressShell");
+      const progressValue = document.getElementById("progressValue");
+      progressValue.textContent = val + "%";
+
+      const deg = (val / 100) * 360;
+      progressShell.style.background = `
+        radial-gradient(circle at 30% 0%, rgba(255, 255, 255, 0.9), transparent 55%),
+        conic-gradient(from 220deg, var(--primary) 0deg, var(--primary) ${deg}deg, #e5e7eb ${deg}deg)
+      `;
+
+      const summary = document.getElementById("progressSummary");
+      if (val === 0) summary.textContent = "Getting started";
+      else if (val < 30) summary.textContent = "Nice, you’ve started your journey";
+      else if (val < 60) summary.textContent = "Good progress, keep going";
+      else if (val < 90) summary.textContent = "You’re close to finishing";
+      else summary.textContent = "Ready for your certificate!";
+    }
+
+    function updateCertificateState(isComplete, certificateUrl) {
+      const statusEl = document.getElementById("certificateStatus");
+      const subEl = document.getElementById("certificateSub");
+      const btnEl = document.getElementById("btnCertificate");
+
+      if (isComplete) {
+        statusEl.textContent = "Unlocked";
+        statusEl.classList.remove("locked");
+        subEl.textContent = "Your internship requirements are complete. Download your certificate.";
+        btnEl.disabled = false;
+        btnEl.onclick = () => {
+          if (certificateUrl) {
+            window.open(certificateUrl, "_blank");
+          } else {
+            alert("Certificate URL is not set yet. Ask your mentor/admin to add it.");
+          }
+        };
+      } else {
+        statusEl.textContent = "Locked";
+        statusEl.classList.add("locked");
+        subEl.textContent = "Complete all required milestones to unlock your certificate.";
+        btnEl.disabled = true;
+        btnEl.onclick = null;
+      }
+    }
+
+    // ===== Render functions =====
+    function renderStudentHeader(studentDoc) {
+      const data = studentDoc.data() || {};
+
+      const name = data.displayName || data.name || "Student";
+      const domain = data.domain || "—";
+      const batch = data.batch || "—";
+      const startDate = data.startDate || data.start;
+      const endDate = data.endDate || data.end;
+      const currentPhase = data.currentPhase || "—";
+
+      document.getElementById("studentName").textContent = name;
+      document.getElementById("studentNameChip").textContent = name;
+      document.getElementById("heroDomainPill").textContent = "Domain: " + domain;
+      document.getElementById("heroBatch").textContent = batch;
+      document.getElementById("heroStart").textContent = formatDate(startDate);
+      document.getElementById("heroEnd").textContent = formatDate(endDate);
+      document.getElementById("heroPhaseBadge").textContent = "Phase: " + currentPhase;
+    }
+
+    function renderStats(studentDoc, attendanceStats) {
+      const data = studentDoc.data() || {};
+      const totalTasks = data.totalTasks || 0;
+      const completedTasks = data.completedTasks || 0;
+      const hours = data.totalHours || 0;
+      const progress = data.overallProgress || (totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0);
+
+      updateProgressCircle(progress);
+
+      const tasksLabel = document.getElementById("statTasksCompleted");
+      const tasksPill = document.getElementById("statTasksPill");
+      tasksLabel.textContent = completedTasks + " / " + totalTasks;
+      if (totalTasks === 0) tasksPill.textContent = "No tasks yet";
+      else if (completedTasks === 0) tasksPill.textContent = "Start your first task";
+      else if (completedTasks < totalTasks) tasksPill.textContent = "Keep completing tasks";
+      else tasksPill.textContent = "All tasks completed";
+
+      document.getElementById("statHours").textContent = hours.toFixed ? hours.toFixed(1) : hours;
+      const hoursPill = document.getElementById("statHoursPill");
+      if (!hours) hoursPill.textContent = "Log your first hour";
+      else if (hours < 10) hoursPill.textContent = "Good start, keep logging hours";
+      else hoursPill.textContent = "Great consistency";
+
+      // Attendance
+      const attended = attendanceStats.attended || 0;
+      const totalSessions = attendanceStats.total || 0;
+      document.getElementById("statAttendance").textContent = attended + " / " + totalSessions;
+
+      const attendancePill = document.getElementById("statAttendancePill");
+      if (totalSessions === 0) attendancePill.textContent = "No sessions yet";
+      else if (attended === 0) attendancePill.textContent = "Attend your first session";
+      else if (attended === totalSessions) attendancePill.textContent = "Perfect attendance";
+      else attendancePill.textContent = "Try to attend upcoming sessions";
+
+      // Certificate state suggestion: unlock if progress >= 90
+      updateCertificateState(progress >= 90, data.certificateUrl || null);
+    }
+
+    function renderTasks(tasksSnap) {
+      const list = document.getElementById("tasksList");
+      const empty = document.getElementById("tasksEmpty");
+      const countBadge = document.getElementById("tasksCountBadge");
+      list.innerHTML = "";
+
+      if (tasksSnap.empty) {
+        countBadge.textContent = "0 items";
+        empty.style.display = "block";
+        return [];
+      }
+
+      empty.style.display = "none";
+      const tasks = [];
+      tasksSnap.forEach(docSnap => {
+        const d = docSnap.data();
+        tasks.push({ id: docSnap.id, ...d });
+      });
+
+      countBadge.textContent = tasks.length + " items";
+
+      tasks
+        .sort((a, b) => {
+          const aTime = a.dueDate ? (a.dueDate.toMillis ? a.dueDate.toMillis() : new Date(a.dueDate).getTime()) : 0;
+          const bTime = b.dueDate ? (b.dueDate.toMillis ? b.dueDate.toMillis() : new Date(b.dueDate).getTime()) : 0;
+          return aTime - bTime;
+        })
+        .forEach(task => {
+          const row = document.createElement("div");
+          row.className = "task-row";
+
+          const title = document.createElement("div");
+          const titleMain = document.createElement("div");
+          titleMain.className = "task-title";
+          titleMain.textContent = task.title || "Untitled task";
+          const titleMeta = document.createElement("div");
+          titleMeta.className = "task-meta";
+          titleMeta.textContent = task.type ? task.type : (task.category || "Task");
+          title.appendChild(titleMain);
+          title.appendChild(titleMeta);
+
+          const status = document.createElement("div");
+          const pill = document.createElement("div");
+          pill.className = "task-status-pill";
+          const sColor = statusColor(task.status);
+          pill.style.background = sColor.bg;
+          pill.style.borderColor = "transparent";
+          pill.style.color = sColor.text;
+
+          const dot = document.createElement("span");
+          dot.className = "task-status-dot";
+          dot.style.background = sColor.dot;
+          pill.appendChild(dot);
+
+          const text = document.createElement("span");
+          text.textContent = task.status || "Pending";
+          pill.appendChild(text);
+          status.appendChild(pill);
+
+          const due = document.createElement("div");
+          due.className = "task-due";
+          const dueStr = formatDate(task.dueDate);
+          due.textContent = "Due: " + dueStr;
+
+          const actions = document.createElement("div");
+          actions.className = "task-actions";
+          const btn = document.createElement("button");
+          btn.className = "btn-small";
+          btn.type = "button";
+          btn.textContent = "View task";
+          btn.onclick = () => {
+            // Here you can link to a detailed task page or modal
+            alert("You can link this button to a detailed task page for: " + (task.title || "Task"));
+          };
+          actions.appendChild(btn);
+
+          row.appendChild(title);
+          row.appendChild(status);
+          row.appendChild(due);
+          row.appendChild(actions);
+          list.appendChild(row);
+        });
+
+      return tasks;
+    }
+
+    function renderSubmissions(submissionsSnap) {
+      const list = document.getElementById("submissionsList");
+      const empty = document.getElementById("submissionsEmpty");
+      const countBadge = document.getElementById("submissionsCountBadge");
+      list.innerHTML = "";
+
+      if (submissionsSnap.empty) {
+        countBadge.textContent = "0 items";
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      const submissions = [];
+      submissionsSnap.forEach(docSnap => {
+        submissions.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      countBadge.textContent = submissions.length + " items";
+
+      submissions.forEach(sub => {
+        const row = document.createElement("div");
+        row.className = "submission-row";
+
+        const top = document.createElement("div");
+        top.className = "submission-top";
+
+        const taskName = document.createElement("div");
+        taskName.className = "submission-task";
+        taskName.textContent = sub.taskTitle || "Task";
+
+        const statusEl = document.createElement("div");
+        statusEl.className = "submission-status";
+        const sColor = statusColor(sub.status);
+        statusEl.style.background = sColor.bg;
+        statusEl.style.color = sColor.text;
+        statusEl.style.borderColor = "transparent";
+        statusEl.textContent = sub.status || "Submitted";
+
+        top.appendChild(taskName);
+        top.appendChild(statusEl);
+
+        const feedback = document.createElement("div");
+        feedback.className = "submission-feedback";
+        if (sub.feedbackSnippet || sub.feedback) {
+          feedback.textContent = (sub.feedbackSnippet || sub.feedback);
+        } else {
+          feedback.textContent = "Feedback not added yet.";
+        }
+
+        const meta = document.createElement("div");
+        meta.className = "submission-feedback";
+        const rating = sub.rating ? `Rating: ${sub.rating} / 5` : "";
+        const date = sub.updatedAt || sub.submittedAt;
+        const dateStr = formatDate(date);
+        meta.textContent = [rating, dateStr !== "—" ? "Updated: " + dateStr : ""]
+          .filter(Boolean)
+          .join(" • ");
+
+        row.appendChild(top);
+        row.appendChild(feedback);
+        if (meta.textContent.trim() !== "") row.appendChild(meta);
+
+        list.appendChild(row);
+      });
+    }
+
+    function renderSkills(studentDoc) {
+      const data = studentDoc.data() || {};
+      const htmlSkill = data.skillHtml || data.skillFrontend || 0;
+      const jsSkill = data.skillJs || data.skillJavascript || 0;
+      const commSkill = data.skillCommunication || 0;
+
+      setSkillBar(
+        document.getElementById("skillHtmlBar"),
+        document.getElementById("skillHtmlValue"),
+        htmlSkill
+      );
+      setSkillBar(
+        document.getElementById("skillJsBar"),
+        document.getElementById("skillJsValue"),
+        jsSkill
+      );
+      setSkillBar(
+        document.getElementById("skillCommBar"),
+        document.getElementById("skillCommValue"),
+        commSkill
+      );
+    }
+
+    function renderBadges(badgesSnap) {
+      const list = document.getElementById("badgesList");
+      const empty = document.getElementById("badgesEmpty");
+      list.innerHTML = "";
+
+      if (badgesSnap.empty) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      badgesSnap.forEach(docSnap => {
+        const d = docSnap.data();
+        const pill = document.createElement("div");
+        pill.className = "badge-pill";
+
+        const icon = document.createElement("div");
+        icon.className = "badge-icon";
+        icon.textContent = d.icon || "🏅";
+
+        const text = document.createElement("div");
+        text.textContent = d.name || "Badge";
+
+        pill.appendChild(icon);
+        pill.appendChild(text);
+        list.appendChild(pill);
+      });
+    }
+
+    function renderSessions(sessionsSnap) {
+      const list = document.getElementById("sessionsList");
+      const empty = document.getElementById("sessionsEmpty");
+      list.innerHTML = "";
+
+      const stats = { attended: 0, total: 0 };
+
+      if (sessionsSnap.empty) {
+        empty.style.display = "block";
+        return stats;
+      }
+
+      empty.style.display = "none";
+
+      sessionsSnap.forEach(docSnap => {
+        const s = docSnap.data();
+        stats.total += 1;
+        if ((s.status || "").toLowerCase() === "attended") stats.attended += 1;
+
+        const row = document.createElement("div");
+        row.className = "small-row";
+
+        const title = document.createElement("div");
+        title.className = "small-title";
+        title.textContent = s.title || "Session";
+
+        const meta = document.createElement("div");
+        meta.className = "small-meta";
+        const dateStr = formatDate(s.dateTime || s.date);
+        const timeStr = s.dateTime && (s.dateTime.toDate ? s.dateTime.toDate() : new Date(s.dateTime)).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        meta.textContent = [dateStr, timeStr].filter(Boolean).join(" • ");
+
+        const tags = document.createElement("div");
+        tags.className = "small-tag-row";
+
+        const statusPill = document.createElement("span");
+        statusPill.className = "tag-pill";
+        statusPill.textContent = s.status || "Upcoming";
+        if ((s.status || "").toLowerCase() === "missed") {
+          statusPill.classList.add("tag-pill-alt");
+        }
+
+        tags.appendChild(statusPill);
+
+        if (s.hasRecording) {
+          const rec = document.createElement("a");
+          rec.href = s.recordingUrl || "#";
+          rec.target = "_blank";
+          rec.className = "link-small";
+          rec.textContent = "Watch recording";
+          tags.appendChild(rec);
+        }
+
+        row.appendChild(title);
+        row.appendChild(meta);
+        row.appendChild(tags);
+        list.appendChild(row);
+      });
+
+      return stats;
+    }
+
+    function renderReflections(reflectionsSnap) {
+      const list = document.getElementById("reflectionsList");
+      const empty = document.getElementById("reflectionsEmpty");
+      list.innerHTML = "";
+
+      if (reflectionsSnap.empty) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      const reflections = [];
+      reflectionsSnap.forEach(docSnap => {
+        reflections.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      reflections
+        .sort((a, b) => (a.weekNumber || 0) - (b.weekNumber || 0))
+        .slice(-3)
+        .forEach(ref => {
+          const row = document.createElement("div");
+          row.className = "small-row";
+
+          const title = document.createElement("div");
+          title.className = "small-title";
+          title.textContent = "Week " + (ref.weekNumber || "?");
+
+          const meta = document.createElement("div");
+          meta.className = "small-meta";
+          meta.textContent = formatDate(ref.createdAt);
+
+          const text = document.createElement("div");
+          text.className = "small-meta";
+          text.textContent = (ref.text || "").slice(0, 120) + (ref.text && ref.text.length > 120 ? "..." : "");
+
+          row.appendChild(title);
+          row.appendChild(meta);
+          row.appendChild(text);
+          list.appendChild(row);
+        });
+    }
+
+    function renderAnnouncements(announcementsSnap) {
+      const list = document.getElementById("announcementsList");
+      const empty = document.getElementById("announcementsEmpty");
+      list.innerHTML = "";
+
+      if (announcementsSnap.empty) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      announcementsSnap.forEach(docSnap => {
+        const a = docSnap.data();
+        const row = document.createElement("div");
+        row.className = "small-row";
+
+        const title = document.createElement("div");
+        title.className = "small-title";
+        title.textContent = a.title || "Announcement";
+
+        const meta = document.createElement("div");
+        meta.className = "small-meta";
+        meta.textContent = formatDate(a.date || a.createdAt);
+
+        const text = document.createElement("div");
+        text.className = "small-meta";
+        text.textContent = (a.body || "").slice(0, 140) + (a.body && a.body.length > 140 ? "..." : "");
+
+        row.appendChild(title);
+        row.appendChild(meta);
+        row.appendChild(text);
+        list.appendChild(row);
+      });
+    }
+
+    function renderNextActions(tasks) {
+      const list = document.getElementById("nextActionsList");
+      list.innerHTML = "";
+
+      if (!tasks || tasks.length === 0) {
+        const li = document.createElement("li");
+        li.className = "next-item";
+        li.innerHTML = `
+          <div class="next-index">1</div>
+          <div class="next-text">
+            <div class="next-main">Wait for your first task</div>
+            <div class="next-meta">Your mentor will assign tasks here. Stay tuned.</div>
+          </div>
+        `;
+        list.appendChild(li);
+        return;
+      }
+
+      // Next actions: pending/in progress tasks sorted by due date
+      const candidates = tasks.filter(t => {
+        const s = (t.status || "").toLowerCase();
+        return s === "" || s === "pending" || s === "in progress";
+      });
+
+      const todo = (candidates.length ? candidates : tasks).slice(0, 3);
+
+      todo.forEach((task, index) => {
+        const li = document.createElement("li");
+        li.className = "next-item";
+
+        const indexDiv = document.createElement("div");
+        indexDiv.className = "next-index";
+        indexDiv.textContent = index + 1;
+
+        const textWrap = document.createElement("div");
+        textWrap.className = "next-text";
+
+        const main = document.createElement("div");
+        main.className = "next-main";
+        main.textContent = task.title || "Task";
+
+        const meta = document.createElement("div");
+        meta.className = "next-meta";
+        const dueStr = formatDate(task.dueDate);
+        const statusStr = task.status || "Pending";
+        meta.textContent = [statusStr, dueStr !== "—" ? "Due " + dueStr : ""].filter(Boolean).join(" • ");
+
+        textWrap.appendChild(main);
+        textWrap.appendChild(meta);
+
+        li.appendChild(indexDiv);
+        li.appendChild(textWrap);
+
+        list.appendChild(li);
+      });
+    }
+
+    // ===== Main auth listener =====
+    onAuthStateChanged(auth, async (user) => {
+      hideError();
+
+      if (!user) {
+        hideLoading();
+        alert("You are not signed in. Redirecting to login page.");
+        window.location.href = "login.html"; // change to your login page
+        return;
+      }
+
+      try {
+        const uid = user.uid;
+        const studentRef = doc(db, "students", uid);
+        const studentSnap = await getDoc(studentRef);
+
+        if (!studentSnap.exists()) {
+          showError("Student profile not found. Ask admin to create your student record.");
+          hideLoading();
+          return;
+        }
+
+        // Fetch related collections in parallel
+        const [
+          tasksSnap,
+          submissionsSnap,
+          badgesSnap,
+          sessionsSnap,
+          reflectionsSnap,
+          announcementsSnap
+        ] = await Promise.all([
+          // Per-student subcollections
+          getDocs(collection(db, "students", uid, "tasks")),
+          getDocs(
+            query(
+              collection(db, "students", uid, "submissions"),
+              orderBy("updatedAt", "desc"),
+              limit(5)
+            )
+          ),
+          getDocs(collection(db, "students", uid, "badges")),
+          getDocs(collection(db, "students", uid, "sessions")),
+          getDocs(collection(db, "students", uid, "reflections")),
+          // Global announcements: last 5
+          getDocs(
+            query(
+              collection(db, "announcements"),
+              orderBy("date", "desc"),
+              limit(5)
+            )
+          )
+        ]);
+
+        // Render all sections
+        renderStudentHeader(studentSnap);
+        renderSkills(studentSnap);
+        renderBadges(badgesSnap);
+        const sessionsStats = renderSessions(sessionsSnap);
+        renderStats(studentSnap, sessionsStats);
+        const tasks = renderTasks(tasksSnap);
+        renderNextActions(tasks);
+        renderSubmissions(submissionsSnap);
+        renderReflections(reflectionsSnap);
+        renderAnnouncements(announcementsSnap);
+
+        hideLoading();
+      } catch (err) {
+        console.error(err);
+        showError("Failed to load dashboard. Please refresh the page.");
+        hideLoading();
+      }
+    });
+
+    // ===== Logout =====
+    document.getElementById("btnLogout").addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        window.location.href = "login.html"; // change to your login page
+      } catch (err) {
+        console.error(err);
+        showError("Could not sign you out. Try again.");
+      }
+    });
+  </script>
+</body>
+</html>
