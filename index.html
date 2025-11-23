@@ -729,6 +729,10 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
     .card {
       background: rgba(255, 255, 255, 0.98);
       border-radius: var(--radius-xl);
@@ -1260,7 +1264,8 @@
         margin-top: 6px;
       }
 
-      .grid-3 {
+      .grid-3,
+      .grid-4 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
@@ -1291,6 +1296,7 @@
       }
 
       .grid-3,
+      .grid-4,
       .grid-2,
       .faq-grid {
         grid-template-columns: minmax(0, 1fr);
@@ -1633,68 +1639,67 @@
 
         <div class="grid grid-3">
 
-  <!-- Web Development -->
-  <div class="card">
-    <div class="card-icon">🌐</div>
-    <div class="card-title">Web Development</div>
-    <div class="card-text">
-      Build websites, landing pages, dashboards and learn HTML, CSS, JavaScript with real tasks.
-    </div>
-    <div class="card-meta">Sample tasks:</div>
-    <div class="track-tags">
-      <span class="track-tag">Portfolio website</span>
-      <span class="track-tag">Responsive UI</span>
-      <span class="track-tag">GitHub Pages</span>
-    </div>
-  </div>
+          <!-- Web Development -->
+          <div class="card">
+            <div class="card-icon">🌐</div>
+            <div class="card-title">Web Development</div>
+            <div class="card-text">
+              Build websites, landing pages and simple dashboards using HTML, CSS and basic JavaScript.
+            </div>
+            <div class="card-meta">Sample tasks:</div>
+            <div class="track-tags">
+              <span class="track-tag">Portfolio website</span>
+              <span class="track-tag">Responsive UI</span>
+              <span class="track-tag">GitHub Pages</span>
+            </div>
+          </div>
 
-  <!-- Data Analyst -->
-  <div class="card">
-    <div class="card-icon">📊</div>
-    <div class="card-title">Data Analyst</div>
-    <div class="card-text">
-      Learn how to clean, analyze and visualize data using Excel, Google Sheets and basics of data interpretation.
-    </div>
-    <div class="card-meta">Sample tasks:</div>
-    <div class="track-tags">
-      <span class="track-tag">Excel dashboards</span>
-      <span class="track-tag">Charts & insights</span>
-      <span class="track-tag">Data cleaning</span>
-    </div>
-  </div>
+          <!-- Data Analyst -->
+          <div class="card">
+            <div class="card-icon">📊</div>
+            <div class="card-title">Data Analyst</div>
+            <div class="card-text">
+              Learn how to clean, analyze and visualize data using Excel/Sheets and present insights clearly.
+            </div>
+            <div class="card-meta">Sample tasks:</div>
+            <div class="track-tags">
+              <span class="track-tag">Excel dashboards</span>
+              <span class="track-tag">Charts & insights</span>
+              <span class="track-tag">Data cleaning</span>
+            </div>
+          </div>
 
-  <!-- Java Development -->
-  <div class="card">
-    <div class="card-icon">☕</div>
-    <div class="card-title">Java Development</div>
-    <div class="card-text">
-      Learn Java fundamentals, OOP concepts, small applications, and simple Java-based projects.
-    </div>
-    <div class="card-meta">Sample tasks:</div>
-    <div class="track-tags">
-      <span class="track-tag">OOP concepts</span>
-      <span class="track-tag">Mini Java app</span>
-      <span class="track-tag">Project structure</span>
-    </div>
-  </div>
+          <!-- Java Development -->
+          <div class="card">
+            <div class="card-icon">☕</div>
+            <div class="card-title">Java Development</div>
+            <div class="card-text">
+              Practice Java fundamentals, OOP concepts and build small console or simple application projects.
+            </div>
+            <div class="card-meta">Sample tasks:</div>
+            <div class="track-tags">
+              <span class="track-tag">OOP concepts</span>
+              <span class="track-tag">Mini Java app</span>
+              <span class="track-tag">Project structure</span>
+            </div>
+          </div>
 
-  <!-- Python Development -->
-  <div class="card">
-    <div class="card-icon">🐍</div>
-    <div class="card-title">Python Development</div>
-    <div class="card-text">
-      Learn Python from basics, work on scripts, automation tasks, data handling and small real-world Python mini-projects.
-    </div>
-    <div class="card-meta">Sample tasks:</div>
-    <div class="track-tags">
-      <span class="track-tag">Basic scripts</span>
-      <span class="track-tag">Automation</span>
-      <span class="track-tag">Mini Python project</span>
-    </div>
-  </div>
+          <!-- Python Development -->
+          <div class="card">
+            <div class="card-icon">🐍</div>
+            <div class="card-title">Python Development</div>
+            <div class="card-text">
+              Learn Python from basics, write scripts, simple automations and beginner-level mini projects.
+            </div>
+            <div class="card-meta">Sample tasks:</div>
+            <div class="track-tags">
+              <span class="track-tag">Basic scripts</span>
+              <span class="track-tag">Automation</span>
+              <span class="track-tag">Mini Python project</span>
+            </div>
+          </div>
 
-</div>
-
+        </div>
       </section>
 
       <!-- Process -->
@@ -1708,7 +1713,7 @@
           </p>
         </div>
 
-        <div class="grid grid-4" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;">
+        <div class="grid grid-4">
           <div class="card">
             <div class="card-icon">📝</div>
             <div class="card-title">1. Registration</div>
@@ -2117,14 +2122,14 @@
         const targetId = link.getAttribute('href');
         if (targetId.length > 1) {
           const target = document.querySelector(targetId);
-          if (targetId === "#top") {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                } else {
-                const rect = target.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const top = rect.top + scrollTop - 20; // slight offset for beauty
-                window.scrollTo({ top, behavior: "smooth" });
-            }
+          if (target) {
+            e.preventDefault();
+            const offset = header.offsetHeight || 60;
+            const rect = target.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const top = rect.top + scrollTop - (offset + 8);
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
         }
       });
     });
