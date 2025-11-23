@@ -2107,49 +2107,68 @@
   </a>
 
   <script>
-    // Mobile navigation toggle
-    const header = document.querySelector('header');
-    const navInner = document.querySelector('.nav-inner');
-    const menuToggle = document.querySelector('.menu-toggle');
+  // Always start page from the top (even on refresh / back)
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.addEventListener('load', () => {
+    // force scroll to very top
+    window.scrollTo(0, 0);
+  });
 
-    menuToggle.addEventListener('click', () => {
-      navInner.classList.toggle('nav-open');
+  // Mobile navigation toggle
+  const header = document.querySelector('header');
+  const navInner = document.querySelector('.nav-inner');
+  const menuToggle = document.querySelector('.menu-toggle');
+
+  menuToggle.addEventListener('click', () => {
+    navInner.classList.toggle('nav-open');
+  });
+
+  // Smooth scroll for internal links (including Back to Top)
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const targetId = link.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+
+      // Back to top: always go to absolute top
+      if (targetId === '#top') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      e.preventDefault();
+
+      const offset = header.offsetHeight || 60;
+      const rect = target.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const top = rect.top + scrollTop - (offset + 8);
+
+      window.scrollTo({ top, behavior: 'smooth' });
     });
+  });
 
-    // Smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', e => {
-        const targetId = link.getAttribute('href');
-        if (targetId.length > 1) {
-          const target = document.querySelector(targetId);
-          if (target) {
-            e.preventDefault();
-            const offset = header.offsetHeight || 60;
-            const rect = target.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const top = rect.top + scrollTop - (offset + 8);
-            window.scrollTo({ top, behavior: 'smooth' });
-          }
+  // Scroll reveal animation
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
         }
       });
-    });
+    },
+    { threshold: 0.16 }
+  );
 
-    // Scroll reveal animation
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.16 }
-    );
+  document.querySelectorAll('.reveal').forEach(section => {
+    observer.observe(section);
+  });
+</script>
 
-    document.querySelectorAll('.reveal').forEach(section => {
-      observer.observe(section);
-    });
-  </script>
 </body>
 </html>
