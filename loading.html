@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interny – Coming Soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #f5f7ff;
+      --bg-card: #ffffff;
+      --bg-soft: #eef2ff;
+      --primary: #4f46e5;
+      --primary-soft: rgba(79, 70, 229, 0.07);
+      --primary-strong: #3730a3;
+      --accent: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --radius-xl: 26px;
+      --shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.14);
+      --transition-fast: 180ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e0e7ff, #f5f7ff 45%, #eef2ff 80%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Blobs */
+    .blob {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.55;
+      z-index: -2;
+      pointer-events: none;
+      animation: blob-float 20s infinite alternate ease-in-out;
+    }
+
+    .blob.blob-1 {
+      top: -80px;
+      left: -40px;
+      background: #a5b4fc;
+    }
+
+    .blob.blob-2 {
+      bottom: -140px;
+      right: -60px;
+      background: #fecaca;
+      animation-delay: 4s;
+    }
+
+    .blob.blob-3 {
+      top: 40%;
+      left: 55%;
+      background: #bfdbfe;
+      animation-delay: 9s;
+    }
+
+    @keyframes blob-float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.05); }
+      100% { transform: translate(-20px, 20px) scale(0.98); }
+    }
+
+    /* Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(245,247,255,0.95), rgba(245,247,255,0.8));
+      border-bottom: 1px solid rgba(209,213,219,0.6);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(from 200deg, #4f46e5, #a855f7, #f97316, #4f46e5);
+      padding: 2px;
+      box-shadow: 0 10px 35px rgba(79, 70, 229, 0.5);
+    }
+
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 20%, #eef2ff, #1d2443);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-text-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #111827;
+    }
+
+    .brand-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .nav-chip {
+      font-size: 12px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97316;
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.25);
+    }
+
+    /* Main */
+    .page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px 32px;
+    }
+
+    .shell {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .under-card {
+      background: rgba(255,255,255,0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(226,232,240,0.95);
+      box-shadow: var(--shadow-soft);
+      padding: 26px 26px 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .under-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(79,70,229,0.16), transparent 55%),
+        radial-gradient(circle at bottom left, rgba(249,115,22,0.10), transparent 55%);
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .under-left,
+    .under-right {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--primary-strong);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .eyebrow span {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97316;
+    }
+
+    .title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: 24px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      color: #020617;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .points {
+      list-style: none;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .points li {
+      display: flex;
+      gap: 8px;
+    }
+
+    .points-bullet {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--primary-strong);
+      margin-top: 2px;
+    }
+
+    .small-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148,163,184,0.9);
+      font-size: 11px;
+      color: #4b5563;
+      background: rgba(248,250,252,0.95);
+      margin-top: 10px;
+    }
+
+    .small-pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Right side */
+    .loader-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .loader-ring {
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 220deg, rgba(79,70,229,0.08), rgba(249,115,22,0.2), rgba(79,70,229,0.18));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: spin-slow 12s linear infinite;
+    }
+
+    .loader-ring-inner {
+      width: 82px;
+      height: 82px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 0%, #ffffff, #e5e7eb);
+      box-shadow:
+        0 16px 32px rgba(148,163,184,0.5),
+        inset 0 0 0 1px rgba(226,232,240,0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: pulse-soft 2.2s ease-in-out infinite;
+    }
+
+    .loader-icon {
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+
+    .loader-text-main {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .loader-text-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .progress-bar {
+      width: 100%;
+      max-width: 260px;
+      height: 7px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      position: absolute;
+      inset: 0;
+      width: 35%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      animation: progress-loop 2.6s ease-in-out infinite;
+    }
+
+    .loader-caption {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .dots {
+      display: inline-flex;
+      gap: 3px;
+      margin-left: 2px;
+    }
+
+    .dots span {
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--primary);
+      opacity: 0.2;
+      animation: dots 1.4s infinite ease-in-out;
+    }
+
+    .dots span:nth-child(2) { animation-delay: 0.18s; }
+    .dots span:nth-child(3) { animation-delay: 0.36s; }
+
+    @keyframes spin-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-soft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    @keyframes progress-loop {
+      0%   { transform: translateX(-100%); }
+      50%  { transform: translateX(10%); }
+      100% { transform: translateX(120%); }
+    }
+
+    @keyframes dots {
+      0%, 60%, 100% { opacity: 0.2; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-2px); }
+    }
+
+    .btn-outline {
+      margin-top: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(248,250,252,0.98);
+      font-size: 12px;
+      padding: 7px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #4b5563;
+      transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .btn-outline:hover {
+      background: #ffffff;
+      border-color: rgba(129,140,248,0.9);
+      box-shadow: 0 12px 26px rgba(148,163,184,0.4);
+      transform: translateY(-1px);
+    }
+
+    footer {
+      font-size: 11px;
+      color: #9ca3af;
+      text-align: center;
+      padding: 12px 20px 18px;
+      border-top: 1px solid rgba(209,213,219,0.7);
+      background: rgba(248,250,252,0.9);
+    }
+
+    footer a {
+      color: var(--primary-strong);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 880px) {
+      .under-card {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 22px 18px 18px;
+      }
+      .page {
+        padding: 26px 14px 26px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        padding-inline: 14px;
+      }
+      .title {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Navbar -->
+  <header>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-logo">
+          <div class="brand-logo-inner">In</div>
+        </div>
+        <div>
+          <div class="brand-text-title">INTERNY</div>
+          <div class="brand-text-sub">Internship that feels like real work</div>
+        </div>
+      </div>
+
+      <div class="nav-chip">
+        <span class="nav-chip-dot"></span>
+        <span>New Interny experience is loading</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="page">
+    <div class="shell">
+      <section class="under-card">
+        <!-- Left -->
+        <div class="under-left">
+          <div class="eyebrow">
+            UNDER CONSTRUCTION
+            <span></span>
+          </div>
+          <h1 class="title">We’re building the next version of Interny.</h1>
+          <p class="subtitle">
+            The new Interny experience is on the way. We’re polishing dashboards, emails,
+            and workflows so students, mentors and partners get a smooth journey.
+          </p>
+
+          <ul class="points">
+            <li>
+              <div class="points-bullet">1</div>
+              <div>Cleaner onboarding for students and mentors with a proper portal.</div>
+            </li>
+            <li>
+              <div class="points-bullet">2</div>
+              <div>Better tracking of tasks, hours, certificates and communication.</div>
+            </li>
+            <li>
+              <div class="points-bullet">3</div>
+              <div>A consistent Interny design across web, email and dashboards.</div>
+            </li>
+          </ul>
+
+          <div class="small-pill">
+            <span class="small-pill-dot"></span>
+            You’ll see an update here as soon as we go live.
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="under-right">
+          <div class="loader-shell">
+            <div class="loader-ring">
+              <div class="loader-ring-inner">
+                <div class="loader-icon">🛠</div>
+                <div class="loader-text-main">Interny in progress</div>
+                <div class="loader-text-sub">We’re setting things up…</div>
+              </div>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
+            </div>
+
+            <div class="loader-caption">
+              Thank you for your patience
+              <span class="dots">
+                <span></span><span></span><span></span>
+              </span>
+            </div>
+
+            <button class="btn-outline" type="button" onclick="location.reload()">
+              Refresh page ↻
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    Interny · All rights reserved · <a href="mailto:hello@interny.example">Contact us</a>
+  </footer>
+</body>
+</html>
