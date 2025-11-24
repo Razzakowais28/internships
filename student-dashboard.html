@@ -35,11 +35,52 @@
 
     body {
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #eef2ff, #e5e9ff 40%, #f5f7ff 70%);
+      background: radial-gradient(circle at top left, #e0e7ff, #f5f7ff 45%, #eef2ff 80%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Soft animated blobs like login page */
+    .blob {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.55;
+      z-index: -2;
+      pointer-events: none;
+      animation: blob-float 20s infinite alternate ease-in-out;
+    }
+
+    .blob.blob-1 {
+      top: -80px;
+      left: -40px;
+      background: #a5b4fc;
+    }
+
+    .blob.blob-2 {
+      bottom: -120px;
+      right: -60px;
+      background: #fecaca;
+      animation-delay: 5s;
+    }
+
+    .blob.blob-3 {
+      top: 40%;
+      left: 55%;
+      background: #bfdbfe;
+      animation-delay: 10s;
+    }
+
+    @keyframes blob-float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.05); }
+      100% { transform: translate(-25px, 15px) scale(0.98); }
     }
 
     .page-shell {
@@ -48,20 +89,20 @@
       flex-direction: column;
     }
 
-    /* Navbar */
+    /* Navbar (theme-matched with login) */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 20;
       backdrop-filter: blur(18px);
-      background: rgba(245, 247, 255, 0.8);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      background: linear-gradient(to bottom, rgba(245,247,255,0.95), rgba(245,247,255,0.8));
+      border-bottom: 1px solid rgba(209,213,219,0.6);
     }
 
     .navbar-inner {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 14px 16px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -75,48 +116,38 @@
     }
 
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: conic-gradient(from 210deg, #4f46e5, #22c55e, #f97316, #4f46e5);
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(from 200deg, #4f46e5, #a855f7, #f97316, #4f46e5);
+      padding: 2px;
+      box-shadow: 0 10px 35px rgba(79, 70, 229, 0.5);
+    }
+
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 20%, #eef2ff, #1d2443);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .brand-logo::before {
-      content: "";
-      position: absolute;
-      inset: 5px;
-      border-radius: inherit;
-      background: radial-gradient(circle at top, #eef2ff, #e5e7eb);
-    }
-
-    .brand-logo span {
-      position: relative;
-      font-size: 16px;
+      color: #e5e7eb;
       font-weight: 700;
-      font-family: "Poppins", system-ui;
-      color: #111827;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-
-    .brand-title {
-      font-family: "Poppins", system-ui;
-      font-weight: 600;
       font-size: 18px;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-text-title {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 14px;
       color: #111827;
     }
 
-    .brand-subtitle {
+    .brand-text-sub {
       font-size: 12px;
       color: var(--text-muted);
     }
@@ -179,6 +210,42 @@
       display: flex;
       flex-direction: column;
       gap: 18px;
+    }
+
+    /* Subtle enter animation for tiles/cards */
+    .hero-card,
+    .hero-next,
+    .card {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fade-up 0.55s ease-out forwards;
+    }
+
+    .hero-card { animation-delay: 0.05s; }
+    .hero-next { animation-delay: 0.12s; }
+    .card:nth-of-type(1) { animation-delay: 0.18s; }
+    .card:nth-of-type(2) { animation-delay: 0.24s; }
+    .card:nth-of-type(3) { animation-delay: 0.30s; }
+    .card:nth-of-type(4) { animation-delay: 0.36s; }
+    .card:nth-of-type(5) { animation-delay: 0.42s; }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .card,
+    .hero-card,
+    .hero-next {
+      transition: transform 160ms ease-out, box-shadow 160ms ease-out, border-color 160ms ease-out;
+    }
+
+    .card:hover,
+    .hero-card:hover,
+    .hero-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(148, 163, 184, 0.35);
+      border-color: rgba(191, 219, 254, 0.9);
     }
 
     /* Hero / Summary */
@@ -469,6 +536,12 @@
       border-radius: 12px;
       background: rgba(248, 250, 252, 0.85);
       border: 1px solid rgba(226, 232, 240, 0.95);
+      transition: transform 140ms ease-out, box-shadow 140ms ease-out;
+    }
+
+    .next-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 25px rgba(148, 163, 184, 0.3);
     }
 
     .next-index {
@@ -495,9 +568,9 @@
     }
 
     .next-meta {
-      margin-top: 2px;
       font-size: 11px;
       color: var(--text-muted);
+      margin-top: 2px;
     }
 
     /* Grid layout below hero */
@@ -579,6 +652,12 @@
       border: 1px solid rgba(226, 232, 240, 0.95);
       background: rgba(248, 250, 252, 0.9);
       align-items: center;
+      transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+    }
+
+    .task-row:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(148, 163, 184, 0.25);
     }
 
     @media (max-width: 700px) {
@@ -744,7 +823,7 @@
       font-size: 11px;
     }
 
-    .badge-pill {
+    .badge-pill-soft {
       padding: 4px 8px;
       border-radius: 999px;
       border: 1px dashed rgba(148, 163, 184, 0.8);
@@ -911,6 +990,145 @@
       box-shadow: 0 12px 28px rgba(79, 70, 229, 0.25);
     }
 
+    /* 30-DAY CALENDAR CARD */
+    /* Make the text go on top and calendar grid full width */
+    .calendar-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    /* Optional: a bit more space between text and grid on larger screens */
+    @media (min-width: 800px) {
+      .calendar-body {
+        gap: 16px;
+      }
+    }
+
+
+
+    .calendar-info-title {
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #020617;
+    }
+    
+    .calendar-info-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .calendar-tip {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .calendar-streak-row {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #111827;
+    }
+
+    .calendar-streak-row strong {
+      font-weight: 600;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    @media (max-width: 420px) {
+      .calendar-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .calendar-day {
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid rgba(226,232,240,0.95);
+      background: rgba(248,250,252,0.95);
+      padding: 8px 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: background 150ms ease-out, border-color 150ms ease-out,
+                  box-shadow 150ms ease-out, transform 140ms ease-out, color 150ms ease-out;
+    }
+
+    .calendar-day::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(129,140,248,0.35), transparent 60%);
+      opacity: 0;
+      transition: opacity 150ms ease-out;
+    }
+
+    .calendar-day:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(148,163,184,0.35);
+    }
+
+    .calendar-day-number {
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-day-check {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      opacity: 0;
+      transform: scale(0.6) translateY(4px);
+      transition: opacity 150ms ease-out, transform 150ms ease-out;
+      z-index: 2;
+    }
+
+    .calendar-day.checked {
+      background: linear-gradient(135deg, var(--primary), #22c55e);
+      border-color: rgba(79,70,229,0.95);
+      color: #f9fafb;
+      box-shadow: 0 14px 32px rgba(79,70,229,0.45);
+    }
+
+    .calendar-day.checked::before {
+      opacity: 0.35;
+    }
+
+    .calendar-day.checked .calendar-day-number {
+      opacity: 0;
+    }
+
+    .calendar-day.checked .calendar-day-check {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* little pop when you tick */
+    .calendar-day.just-ticked {
+      animation: tick-pop 260ms ease-out;
+    }
+
+    @keyframes tick-pop {
+      0%   { transform: scale(0.9); }
+      60%  { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+
     /* Empty state */
     .empty-state {
       padding: 10px 10px 9px;
@@ -971,7 +1189,6 @@
 
     /* Error banner */
     .error-banner {
-      display: none;
       max-width: 1160px;
       margin: 10px auto 0;
       padding: 8px 12px;
@@ -991,6 +1208,11 @@
   </style>
 </head>
 <body>
+  <!-- Blobs like login page -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
   <div class="page-shell">
     <!-- Loading overlay -->
     <div id="loadingOverlay" class="loading-overlay">
@@ -1014,11 +1236,11 @@
       <div class="navbar-inner">
         <div class="brand">
           <div class="brand-logo">
-            <span>I</span>
+            <div class="brand-logo-inner">In</div>
           </div>
-          <div class="brand-text">
-            <div class="brand-title">Interny</div>
-            <div class="brand-subtitle">Student Progress Dashboard</div>
+          <div>
+            <div class="brand-text-title">INTERNY</div>
+            <div class="brand-text-sub">Student Progress Dashboard</div>
           </div>
         </div>
         <div class="nav-right">
@@ -1107,7 +1329,7 @@
 
       <!-- Main grid -->
       <section class="grid-main">
-        <!-- Left column: tasks + submissions + skills/badges -->
+        <!-- Left column: tasks + submissions + skills/badges + 30-day calendar -->
         <div class="grid-col-left">
           <!-- Tasks -->
           <section class="card">
@@ -1206,6 +1428,38 @@
                     Complete tasks on time and participate actively to unlock badges.
                   </div>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 30-Day Internship Calendar -->
+          <section class="card">
+            <header class="card-header">
+              <div>
+                <div class="card-title">
+                  30-Day Internship Calendar
+                  <span class="card-badge" id="calendarSummaryBadge">0 / 30 days checked</span>
+                </div>
+                <div class="card-subtitle">
+                  Tick the days you actively worked on your internship. This helps you and your mentor see your consistency.
+                </div>
+              </div>
+            </header>
+            <div class="card-body calendar-body">
+              <div>
+                <div class="calendar-info-title">Daily progress tracker</div>
+                <p class="calendar-info-text">
+                  Tap on each day you worked. Aim for a strong streak during your 30-day internship.
+                </p>
+                <p class="calendar-tip">
+                  Tip: Mark a day as soon as you finish your internship work.
+                </p>
+                <p class="calendar-streak-row">
+                  <span>Streak: </span><strong id="calendarStreakValue">0 days</strong>
+                </p>
+              </div>
+              <div class="calendar-grid" id="calendarGrid">
+                <!-- Day tiles filled by JS -->
               </div>
             </div>
           </section>
@@ -1319,12 +1573,12 @@
       collection,
       getDocs,
       query,
-      where,
       orderBy,
-      limit
+      limit,
+      updateDoc
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // ===== 1. Configure Firebase (PUT YOUR CONFIG HERE) =====
+    // ===== 1. Configure Firebase =====
     const firebaseConfig = {
       apiKey: "AIzaSyD1ZS9e5N26B698qHmMkDv7IJBSE88gsWs",
       authDomain: "interny-portal-f9ef1.firebaseapp.com",
@@ -1360,7 +1614,6 @@
     function formatDate(ts) {
       if (!ts) return "—";
       try {
-        // Firestore Timestamp or JS Date or ISO string
         const date = ts.toDate ? ts.toDate() : (ts instanceof Date ? ts : new Date(ts));
         return date.toLocaleDateString(undefined, {
           day: "2-digit",
@@ -1438,11 +1691,114 @@
       }
     }
 
+    // ===== 30-DAY CALENDAR LOGIC =====
+    let calendarCheckedDays = [];
+    let calendarUid = null;
+
+    function initCalendar(uid, initialDays) {
+      calendarUid = uid;
+      const grid = document.getElementById("calendarGrid");
+      if (!grid) return;
+
+      const base = Array.isArray(initialDays) ? initialDays : [];
+      calendarCheckedDays = base
+        .map(n => Number(n))
+        .filter(n => Number.isInteger(n) && n >= 1 && n <= 30);
+
+      grid.innerHTML = "";
+
+      for (let day = 1; day <= 30; day++) {
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "calendar-day";
+        cell.dataset.day = String(day);
+
+        const numSpan = document.createElement("span");
+        numSpan.className = "calendar-day-number";
+        numSpan.textContent = String(day);
+
+        const checkSpan = document.createElement("span");
+        checkSpan.className = "calendar-day-check";
+        checkSpan.textContent = "✓";
+
+        if (calendarCheckedDays.includes(day)) {
+          cell.classList.add("checked");
+        }
+
+        cell.appendChild(numSpan);
+        cell.appendChild(checkSpan);
+
+        cell.addEventListener("click", () => toggleCalendarDay(day, cell));
+
+        grid.appendChild(cell);
+      }
+
+      updateCalendarStats();
+    }
+
+    function toggleCalendarDay(day, cell) {
+      const idx = calendarCheckedDays.indexOf(day);
+      if (idx === -1) {
+        calendarCheckedDays.push(day);
+      } else {
+        calendarCheckedDays.splice(idx, 1);
+      }
+
+      if (cell) {
+        cell.classList.toggle("checked");
+        cell.classList.add("just-ticked");
+        setTimeout(() => cell.classList.remove("just-ticked"), 260);
+      }
+
+      updateCalendarStats();
+      saveCalendarState();
+    }
+
+    function updateCalendarStats() {
+      const totalChecked = calendarCheckedDays.length;
+      const badge = document.getElementById("calendarSummaryBadge");
+      if (badge) badge.textContent = `${totalChecked} / 30 days checked`;
+
+      const streakEl = document.getElementById("calendarStreakValue");
+      const streak = computeMaxStreak(calendarCheckedDays);
+      if (streakEl) {
+        streakEl.textContent = streak + (streak === 1 ? " day" : " days");
+      }
+    }
+
+    // longest consecutive streak from 1-30
+    function computeMaxStreak(daysArray) {
+      if (!daysArray || daysArray.length === 0) return 0;
+      const set = new Set(daysArray);
+      let best = 0;
+      let current = 0;
+      for (let d = 1; d <= 30; d++) {
+        if (set.has(d)) {
+          current += 1;
+          if (current > best) best = current;
+        } else {
+          current = 0;
+        }
+      }
+      return best;
+    }
+
+    async function saveCalendarState() {
+      if (!calendarUid) return;
+      try {
+        const ref = doc(db, "students", calendarUid);
+        const sorted = [...calendarCheckedDays].sort((a, b) => a - b);
+        await updateDoc(ref, { calendarCheckins: sorted });
+      } catch (err) {
+        console.warn("Could not save calendar state:", err);
+      }
+    }
+
     // ===== Render functions =====
     function renderStudentHeader(studentDoc) {
       const data = studentDoc.data() || {};
 
-      const name = data.displayName || data.name || "Student";
+      const name = data.fullName || data.displayName || data.name || "Student";
       const domain = data.domain || "—";
       const batch = data.batch || "—";
       const startDate = data.startDate || data.start;
@@ -1567,7 +1923,6 @@
           btn.type = "button";
           btn.textContent = "View task";
           btn.onclick = () => {
-            // Here you can link to a detailed task page or modal
             alert("You can link this button to a detailed task page for: " + (task.title || "Task"));
           };
           actions.appendChild(btn);
@@ -1635,9 +1990,11 @@
 
         const meta = document.createElement("div");
         meta.className = "submission-feedback";
+
         const rating = sub.rating ? `Rating: ${sub.rating} / 5` : "";
         const date = sub.updatedAt || sub.submittedAt;
         const dateStr = formatDate(date);
+
         meta.textContent = [rating, dateStr !== "—" ? "Updated: " + dateStr : ""]
           .filter(Boolean)
           .join(" • ");
@@ -1647,338 +2004,390 @@
         if (meta.textContent.trim() !== "") row.appendChild(meta);
 
         list.appendChild(row);
-      });
-    }
-
-    function renderSkills(studentDoc) {
-      const data = studentDoc.data() || {};
-      const htmlSkill = data.skillHtml || data.skillFrontend || 0;
-      const jsSkill = data.skillJs || data.skillJavascript || 0;
-      const commSkill = data.skillCommunication || 0;
-
-      setSkillBar(
-        document.getElementById("skillHtmlBar"),
-        document.getElementById("skillHtmlValue"),
-        htmlSkill
-      );
-      setSkillBar(
-        document.getElementById("skillJsBar"),
-        document.getElementById("skillJsValue"),
-        jsSkill
-      );
-      setSkillBar(
-        document.getElementById("skillCommBar"),
-        document.getElementById("skillCommValue"),
-        commSkill
-      );
-    }
-
-    function renderBadges(badgesSnap) {
-      const list = document.getElementById("badgesList");
-      const empty = document.getElementById("badgesEmpty");
-      list.innerHTML = "";
-
-      if (badgesSnap.empty) {
-        empty.style.display = "block";
-        return;
-      }
-
-      empty.style.display = "none";
-
-      badgesSnap.forEach(docSnap => {
-        const d = docSnap.data();
-        const pill = document.createElement("div");
-        pill.className = "badge-pill";
-
-        const icon = document.createElement("div");
-        icon.className = "badge-icon";
-        icon.textContent = d.icon || "🏅";
-
-        const text = document.createElement("div");
-        text.textContent = d.name || "Badge";
-
-        pill.appendChild(icon);
-        pill.appendChild(text);
-        list.appendChild(pill);
-      });
-    }
-
-    function renderSessions(sessionsSnap) {
-      const list = document.getElementById("sessionsList");
-      const empty = document.getElementById("sessionsEmpty");
-      list.innerHTML = "";
-
-      const stats = { attended: 0, total: 0 };
-
-      if (sessionsSnap.empty) {
-        empty.style.display = "block";
-        return stats;
-      }
-
-      empty.style.display = "none";
-
-      sessionsSnap.forEach(docSnap => {
-        const s = docSnap.data();
-        stats.total += 1;
-        if ((s.status || "").toLowerCase() === "attended") stats.attended += 1;
-
-        const row = document.createElement("div");
-        row.className = "small-row";
-
-        const title = document.createElement("div");
-        title.className = "small-title";
-        title.textContent = s.title || "Session";
-
-        const meta = document.createElement("div");
-        meta.className = "small-meta";
-        const dateStr = formatDate(s.dateTime || s.date);
-        const timeStr = s.dateTime && (s.dateTime.toDate ? s.dateTime.toDate() : new Date(s.dateTime)).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        meta.textContent = [dateStr, timeStr].filter(Boolean).join(" • ");
-
-        const tags = document.createElement("div");
-        tags.className = "small-tag-row";
-
-        const statusPill = document.createElement("span");
-        statusPill.className = "tag-pill";
-        statusPill.textContent = s.status || "Upcoming";
-        if ((s.status || "").toLowerCase() === "missed") {
-          statusPill.classList.add("tag-pill-alt");
-        }
-
-        tags.appendChild(statusPill);
-
-        if (s.hasRecording) {
-          const rec = document.createElement("a");
-          rec.href = s.recordingUrl || "#";
-          rec.target = "_blank";
-          rec.className = "link-small";
-          rec.textContent = "Watch recording";
-          tags.appendChild(rec);
-        }
-
-        row.appendChild(title);
-        row.appendChild(meta);
-        row.appendChild(tags);
-        list.appendChild(row);
-      });
-
-      return stats;
-    }
-
-    function renderReflections(reflectionsSnap) {
-      const list = document.getElementById("reflectionsList");
-      const empty = document.getElementById("reflectionsEmpty");
-      list.innerHTML = "";
-
-      if (reflectionsSnap.empty) {
-        empty.style.display = "block";
-        return;
-      }
-
-      empty.style.display = "none";
-
-      const reflections = [];
-      reflectionsSnap.forEach(docSnap => {
-        reflections.push({ id: docSnap.id, ...docSnap.data() });
-      });
-
-      reflections
-        .sort((a, b) => (a.weekNumber || 0) - (b.weekNumber || 0))
-        .slice(-3)
-        .forEach(ref => {
-          const row = document.createElement("div");
-          row.className = "small-row";
-
-          const title = document.createElement("div");
-          title.className = "small-title";
-          title.textContent = "Week " + (ref.weekNumber || "?");
-
-          const meta = document.createElement("div");
-          meta.className = "small-meta";
-          meta.textContent = formatDate(ref.createdAt);
-
-          const text = document.createElement("div");
-          text.className = "small-meta";
-          text.textContent = (ref.text || "").slice(0, 120) + (ref.text && ref.text.length > 120 ? "..." : "");
-
-          row.appendChild(title);
-          row.appendChild(meta);
-          row.appendChild(text);
-          list.appendChild(row);
         });
-    }
-
-    function renderAnnouncements(announcementsSnap) {
-      const list = document.getElementById("announcementsList");
-      const empty = document.getElementById("announcementsEmpty");
-      list.innerHTML = "";
-
-      if (announcementsSnap.empty) {
-        empty.style.display = "block";
-        return;
-      }
-
-      empty.style.display = "none";
-
-      announcementsSnap.forEach(docSnap => {
-        const a = docSnap.data();
-        const row = document.createElement("div");
-        row.className = "small-row";
-
-        const title = document.createElement("div");
-        title.className = "small-title";
-        title.textContent = a.title || "Announcement";
-
-        const meta = document.createElement("div");
-        meta.className = "small-meta";
-        meta.textContent = formatDate(a.date || a.createdAt);
-
-        const text = document.createElement("div");
-        text.className = "small-meta";
-        text.textContent = (a.body || "").slice(0, 140) + (a.body && a.body.length > 140 ? "..." : "");
-
-        row.appendChild(title);
-        row.appendChild(meta);
-        row.appendChild(text);
-        list.appendChild(row);
-      });
-    }
-
-    function renderNextActions(tasks) {
-      const list = document.getElementById("nextActionsList");
-      list.innerHTML = "";
-
-      if (!tasks || tasks.length === 0) {
-        const li = document.createElement("li");
-        li.className = "next-item";
-        li.innerHTML = `
-          <div class="next-index">1</div>
-          <div class="next-text">
-            <div class="next-main">Wait for your first task</div>
-            <div class="next-meta">Your mentor will assign tasks here. Stay tuned.</div>
-          </div>
-        `;
-        list.appendChild(li);
-        return;
-      }
-
-      // Next actions: pending/in progress tasks sorted by due date
-      const candidates = tasks.filter(t => {
-        const s = (t.status || "").toLowerCase();
-        return s === "" || s === "pending" || s === "in progress";
-      });
-
-      const todo = (candidates.length ? candidates : tasks).slice(0, 3);
-
-      todo.forEach((task, index) => {
-        const li = document.createElement("li");
-        li.className = "next-item";
-
-        const indexDiv = document.createElement("div");
-        indexDiv.className = "next-index";
-        indexDiv.textContent = index + 1;
-
-        const textWrap = document.createElement("div");
-        textWrap.className = "next-text";
-
-        const main = document.createElement("div");
-        main.className = "next-main";
-        main.textContent = task.title || "Task";
-
-        const meta = document.createElement("div");
-        meta.className = "next-meta";
-        const dueStr = formatDate(task.dueDate);
-        const statusStr = task.status || "Pending";
-        meta.textContent = [statusStr, dueStr !== "—" ? "Due " + dueStr : ""].filter(Boolean).join(" • ");
-
-        textWrap.appendChild(main);
-        textWrap.appendChild(meta);
-
-        li.appendChild(indexDiv);
-        li.appendChild(textWrap);
-
-        list.appendChild(li);
-      });
-    }
-
-    // ===== Main auth listener =====
-    onAuthStateChanged(auth, async (user) => {
-      hideError();
-
-      if (!user) {
-        hideLoading();
-        alert("You are not signed in. Redirecting to login page.");
-        window.location.href = "login.html"; // change to your login page
-        return;
-      }
-
-      try {
-        const uid = user.uid;
-        const studentRef = doc(db, "students", uid);
-        const studentSnap = await getDoc(studentRef);
-
-        if (!studentSnap.exists()) {
-          showError("Student profile not found. Ask admin to create your student record.");
-          hideLoading();
-          return;
         }
 
-        // Fetch related collections in parallel
-        const [
-          tasksSnap,
-          submissionsSnap,
-          badgesSnap,
-          sessionsSnap,
-          reflectionsSnap,
-          announcementsSnap
-        ] = await Promise.all([
-          // Per-student subcollections
-          getDocs(collection(db, "students", uid, "tasks")),
-          getDocs(
-            query(
-              collection(db, "students", uid, "submissions"),
-              orderBy("updatedAt", "desc"),
-              limit(5)
-            )
-          ),
-          getDocs(collection(db, "students", uid, "badges")),
-          getDocs(collection(db, "students", uid, "sessions")),
-          getDocs(collection(db, "students", uid, "reflections")),
-          // Global announcements: last 5
-          getDocs(
-            query(
-              collection(db, "announcements"),
-              orderBy("date", "desc"),
-              limit(5)
-            )
-          )
-        ]);
+        function renderSkills(studentDoc) {
+          const data = studentDoc.data() || {};
+          const htmlSkill = data.skillHtml || data.skillFrontend || 0;
+          const jsSkill = data.skillJs || data.skillJavascript || 0;
+          const commSkill = data.skillCommunication || 0;
 
-        // Render all sections
-        renderStudentHeader(studentSnap);
-        renderSkills(studentSnap);
-        renderBadges(badgesSnap);
-        const sessionsStats = renderSessions(sessionsSnap);
-        renderStats(studentSnap, sessionsStats);
-        const tasks = renderTasks(tasksSnap);
-        renderNextActions(tasks);
-        renderSubmissions(submissionsSnap);
-        renderReflections(reflectionsSnap);
-        renderAnnouncements(announcementsSnap);
+          setSkillBar(
+            document.getElementById("skillHtmlBar"),
+            document.getElementById("skillHtmlValue"),
+            htmlSkill
+          );
 
-        hideLoading();
-      } catch (err) {
-        console.error(err);
-        showError("Failed to load dashboard. Please refresh the page.");
-        hideLoading();
-      }
-    });
+          setSkillBar(
+            document.getElementById("skillJsBar"),
+            document.getElementById("skillJsValue"),
+            jsSkill
+          );
+
+          setSkillBar(
+            document.getElementById("skillCommBar"),
+            document.getElementById("skillCommValue"),
+            commSkill
+          );
+        }
+
+        function renderBadges(badgesSnap) {
+          const list = document.getElementById("badgesList");
+          const empty = document.getElementById("badgesEmpty");
+          list.innerHTML = "";
+
+          if (badgesSnap.empty) {
+            empty.style.display = "block";
+            return;
+          }
+
+          empty.style.display = "none";
+
+          badgesSnap.forEach(docSnap => {
+            const d = docSnap.data();
+            const pill = document.createElement("div");
+            pill.className = "badge-pill-soft";  // FIXED CLASS
+
+            const icon = document.createElement("div");
+            icon.className = "badge-icon";
+            icon.textContent = d.icon || "🏅";
+
+            const text = document.createElement("div");
+            text.textContent = d.name || "Badge";
+
+            pill.appendChild(icon);
+            pill.appendChild(text);
+            list.appendChild(pill);
+          });
+        }
+
+
+        function renderSessions(sessionsSnap) {
+          const list = document.getElementById("sessionsList");
+          const empty = document.getElementById("sessionsEmpty");
+          list.innerHTML = "";
+
+          const stats = { attended: 0, total: 0 };
+
+          if (sessionsSnap.empty) {
+            empty.style.display = "block";
+            return stats;
+          }
+
+          empty.style.display = "none";
+
+          sessionsSnap.forEach(docSnap => {
+            const s = docSnap.data();
+            stats.total += 1;
+            if ((s.status || "").toLowerCase() === "attended") stats.attended += 1;
+
+            const row = document.createElement("div");
+            row.className = "small-row";
+
+            const title = document.createElement("div");
+            title.className = "small-title";
+            title.textContent = s.title || "Session";
+
+            const meta = document.createElement("div");
+            meta.className = "small-meta";
+
+            const dateStr = formatDate(s.dateTime || s.date);
+            const dateObj =
+              s.dateTime && (s.dateTime.toDate ? s.dateTime.toDate() : new Date(s.dateTime));
+
+            const timeStr = dateObj
+              ? dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+              : "";
+
+            meta.textContent = [dateStr, timeStr].filter(Boolean).join(" • ");
+
+            const tags = document.createElement("div");
+            tags.className = "small-tag-row";
+
+            const statusPill = document.createElement("span");
+            statusPill.className = "tag-pill";
+            statusPill.textContent = s.status || "Upcoming";
+
+            if ((s.status || "").toLowerCase() === "missed") {
+              statusPill.classList.add("tag-pill-alt");
+            }
+
+            tags.appendChild(statusPill);
+
+            if (s.hasRecording) {
+              const rec = document.createElement("a");
+              rec.href = s.recordingUrl || "#";
+              rec.target = "_blank";
+              rec.className = "link-small";
+              rec.textContent = "Watch recording";
+              tags.appendChild(rec);
+            }
+
+            row.appendChild(title);
+            row.appendChild(meta);
+            row.appendChild(tags);
+            list.appendChild(row);
+          });
+
+          return stats;
+        }
+
+        function renderReflections(reflectionsSnap) {
+          const list = document.getElementById("reflectionsList");
+          const empty = document.getElementById("reflectionsEmpty");
+          list.innerHTML = "";
+
+          if (reflectionsSnap.empty) {
+            empty.style.display = "block";
+            return;
+          }
+
+          empty.style.display = "none";
+
+          const reflections = [];
+          reflectionsSnap.forEach(docSnap => {
+            reflections.push({ id: docSnap.id, ...docSnap.data() });
+          });
+
+          reflections
+            .sort((a, b) => (a.weekNumber || 0) - (b.weekNumber || 0))
+            .slice(-3)
+            .forEach(ref => {
+              const row = document.createElement("div");
+              row.className = "small-row";
+
+              const title = document.createElement("div");
+              title.className = "small-title";
+              title.textContent = "Week " + (ref.weekNumber || "?");
+
+              const meta = document.createElement("div");
+              meta.className = "small-meta";
+              meta.textContent = formatDate(ref.createdAt);
+
+              const text = document.createElement("div");
+              text.className = "small-meta";
+              const base = ref.text || "";
+              text.textContent = base.slice(0, 120) + (base.length > 120 ? "..." : "");
+
+              row.appendChild(title);
+              row.appendChild(meta);
+              row.appendChild(text);
+              list.appendChild(row);
+            });
+        }
+
+        function renderAnnouncements(announcementsSnap) {
+          const list = document.getElementById("announcementsList");
+          const empty = document.getElementById("announcementsEmpty");
+          list.innerHTML = "";
+
+          if (announcementsSnap.empty) {
+            empty.style.display = "block";
+            return;
+          }
+
+          empty.style.display = "none";
+
+          announcementsSnap.forEach(docSnap => {
+            const a = docSnap.data();
+
+            const row = document.createElement("div");
+            row.className = "small-row";
+
+            const title = document.createElement("div");
+            title.className = "small-title";
+            title.textContent = a.title || "Announcement";
+
+            const meta = document.createElement("div");
+            meta.className = "small-meta";
+            meta.textContent = formatDate(a.date || a.createdAt);
+
+            const text = document.createElement("div");
+            text.className = "small-meta";
+            const base = a.body || "";
+            text.textContent = base.slice(0, 140) + (base.length > 140 ? "..." : "");
+
+            row.appendChild(title);
+            row.appendChild(meta);
+            row.appendChild(text);
+            list.appendChild(row);
+          });
+        }
+
+        function renderNextActions(tasks) {
+          const list = document.getElementById("nextActionsList");
+          list.innerHTML = "";
+
+          if (!tasks || tasks.length === 0) {
+            const li = document.createElement("li");
+            li.className = "next-item";
+            li.innerHTML = `
+              <div class="next-index">1</div>
+              <div class="next-text">
+                <div class="next-main">Wait for your first task</div>
+                <div class="next-meta">Your mentor will assign tasks here. Stay tuned.</div>
+              </div>
+            `;
+            list.appendChild(li);
+            return;
+          }
+
+          const candidates = tasks.filter(t => {
+            const s = (t.status || "").toLowerCase();
+            return s === "" || s === "pending" || s === "in progress";
+          });
+
+          const todo = (candidates.length ? candidates : tasks).slice(0, 3);
+
+          todo.forEach((task, index) => {
+            const li = document.createElement("li");
+            li.className = "next-item";
+
+            const indexDiv = document.createElement("div");
+            indexDiv.className = "next-index";
+            indexDiv.textContent = index + 1;
+
+            const textWrap = document.createElement("div");
+            textWrap.className = "next-text";
+
+            const main = document.createElement("div");
+            main.className = "next-main";
+            main.textContent = task.title || "Task";
+
+            const metaDiv = document.createElement("div");
+            metaDiv.className = "next-meta";
+            const dueStr = formatDate(task.dueDate);
+            const statusStr = task.status || "Pending";
+
+            metaDiv.textContent = [
+              statusStr,
+              dueStr !== "—" ? "Due " + dueStr : ""
+            ]
+              .filter(Boolean)
+              .join(" • ");
+
+            textWrap.appendChild(main);
+            textWrap.appendChild(metaDiv);
+
+            li.appendChild(indexDiv);
+            li.appendChild(textWrap);
+
+            list.appendChild(li);
+          });
+        }
+
+
+        // ===== Main auth listener =====
+        onAuthStateChanged(auth, async (user) => {
+
+          // 🔍 DEBUG — Add these *exactly here*
+          console.log("🔥 AUTH STATE CHANGED — user:", user);
+
+          hideError();
+
+          if (!user) {
+            hideLoading();
+            alert("You are not signed in. Redirecting to login page.");
+            window.location.href = "login.html";
+            return;
+          }
+          
+          // ✅ ADD THIS BLOCK HERE
+          const authName =
+            user.displayName ||
+            (user.email ? user.email.split("@")[0] : "Student");
+
+          document.getElementById("studentName").textContent = authName;
+          document.getElementById("studentNameChip").textContent = authName;
+          // ✅ END ADDED BLOCK
+
+          try {
+            const uid = user.uid;
+
+            // 🔍 DEBUG
+            console.log("🔥 Using UID:", uid);
+
+            const studentRef = doc(db, "students", uid);
+            const studentSnap = await getDoc(studentRef);
+
+            // 🔍 DEBUG
+            console.log("🔥 Student doc exists?", studentSnap.exists());
+            if (studentSnap.exists()) {
+              console.log("🔥 Student data:", studentSnap.data());
+            }
+
+            if (!studentSnap.exists()) {
+              showError("Student profile not found. Ask admin to create your student record.");
+              hideLoading();
+              return;
+            }
+
+            const data = studentSnap.data() || {};
+
+            // 🔍 DEBUG — calendar field check
+            console.log("🔥 calendarCheckins field:", data.calendarCheckins);
+
+
+          // Fetch related collections in parallel
+          const [
+            tasksSnap,
+            submissionsSnap,
+            badgesSnap,
+            sessionsSnap,
+            reflectionsSnap,
+            announcementsSnap
+          ] = await Promise.all([
+            getDocs(collection(db, "students", uid, "tasks")),
+            getDocs(
+              query(
+                collection(db, "students", uid, "submissions"),
+                orderBy("updatedAt", "desc"),
+                limit(5)
+              )
+            ),
+            getDocs(collection(db, "students", uid, "badges")),
+            getDocs(collection(db, "students", uid, "sessions")),
+            getDocs(collection(db, "students", uid, "reflections")),
+            getDocs(
+              query(
+                collection(db, "announcements"),
+                orderBy("date", "desc"),
+                limit(5)
+              )
+            )
+          ]);
+
+          // Render all sections
+          renderStudentHeader(studentSnap);
+          renderSkills(studentSnap);
+          renderBadges(badgesSnap);
+          const sessionsStats = renderSessions(sessionsSnap);
+          renderStats(studentSnap, sessionsStats);
+          const tasks = renderTasks(tasksSnap);
+          renderNextActions(tasks);
+          renderSubmissions(submissionsSnap);
+          renderReflections(reflectionsSnap);
+          renderAnnouncements(announcementsSnap);
+
+          // Init 30-day calendar from student field `calendarCheckins`
+          initCalendar(uid, data.calendarCheckins || []);
+
+          hideLoading();
+        } catch (err) {
+          console.error(err);
+          showError("Failed to load dashboard. Please refresh the page.");
+          hideLoading();
+        }
+      });
+
+    
 
     // ===== Logout =====
     document.getElementById("btnLogout").addEventListener("click", async () => {
       try {
         await signOut(auth);
-        window.location.href = "login.html"; // change to your login page
+        window.location.href = "login.html";
       } catch (err) {
         console.error(err);
         showError("Could not sign you out. Try again.");
