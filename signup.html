@@ -772,8 +772,6 @@
         </a>
       </button>
 
-
-
     </div>
   </div>
 
@@ -799,6 +797,32 @@
           </button>
           <button id="successStayBtn" class="success-ghost-btn">
             Stay on this page
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL ALREADY EXISTS POPUP -->
+    <div id="emailExistsModal" class="success-modal-backdrop">
+      <div class="success-modal">
+        <button class="success-modal-close" id="closeEmailExistsModal">&times;</button>
+
+        <div class="success-icon-wrap">
+          <div class="success-icon-check" style="background:#dc2626;">!</div>
+        </div>
+
+        <h2 class="success-title">Email already in use</h2>
+        <p class="success-text">
+          This email address is already registered. Try logging in or use another email.
+        </p>
+
+        <div class="success-actions">
+          <button id="goToLoginFromEmailExist" class="success-primary-btn">
+            Go to Login
+          </button>
+
+          <button id="stayEmailExistBtn" class="success-ghost-btn">
+            Try Again
           </button>
         </div>
       </div>
