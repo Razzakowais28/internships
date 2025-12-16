@@ -126,14 +126,16 @@
       width: 100%;
       height: 100%;
       border-radius: inherit;
-      background: radial-gradient(circle at 20% 20%, #eef2ff, #1d2443);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #e5e7eb;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 0.08em;
+    }
+    .brand-logo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .brand-text-title {
@@ -481,7 +483,9 @@
     <div class="nav-inner">
       <div class="brand">
         <div class="brand-logo">
-          <div class="brand-logo-inner">In</div>
+          <div class="brand-logo-inner">
+            <img src="https://i.ibb.co/MyC2Ly2Q/Untitled-design.png > alt="Interny Logo">
+          </div>
         </div>
         <div>
           <div class="brand-text-title">INTERNY</div>
