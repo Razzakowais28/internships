@@ -1109,7 +1109,7 @@
         <a href="signup.html" class="btn-secondary">Register</a>
         <a href="login.html" class="btn-primary">Login</a>
 
-        <a class="btn-primary" href="https://wa.me/XXXXXXXXXXXX?text=Hi%20Interny%20Team%2C%20I%27m%20interested%20in%20the%20internship%20program." target="_blank" rel="noreferrer">Apply via WhatsApp →</a>
+        <a class="btn-primary" href="https://wa.me/919618180550?text=Hi%20Interny%20Team%2C%20I%27m%20interested%20in%20the%20internship%20program." target="_blank" rel="noreferrer">Apply via WhatsApp →</a>
       </div>
 
       <button class="menu-toggle" aria-label="Toggle navigation">
@@ -1143,7 +1143,7 @@
           </div>
 
           <div class="hero-cta-row">
-            <a class="btn-primary" href="https://wa.me/XXXXXXXXXXXX?text=Hi%20Interny%20Team%2C%20I%27m%20interested%20in%20the%20internship%20program." target="_blank" rel="noreferrer">
+            <a class="btn-primary" href="https://wa.me/919618180550?text=Hi%20Interny%20Team%2C%20I%27m%20interested%20in%20the%20internship%20program." target="_blank" rel="noreferrer">
               Talk to Interny team on WhatsApp
             </a>
             <a class="btn-secondary" href="#tracks">
@@ -1716,7 +1716,7 @@
               a domain, share all details (including fees), and issue your offer letter.
             </p>
             <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px;">
-              <a class="btn-primary" href="https://wa.me/XXXXXXXXXXXX?text=Hi%20Interny%20Team%2C%20I%27d%20like%20to%20register%20for%20the%20internship." target="_blank" rel="noreferrer">
+              <a class="btn-primary" href="https://wa.me/919618180550?text=Hi%20Interny%20Team%2C%20I%27d%20like%20to%20register%20for%20the%20internship." target="_blank" rel="noreferrer">
                 Apply on WhatsApp now
               </a>
               <!-- Replace # with your form link when ready -->
@@ -1733,8 +1733,8 @@
           <div>
             <div class="cta-contact">
               <p><strong>How to contact Interny:</strong></p>
-              <p>📱 WhatsApp: <strong>+XX XXXX XXXXXXX</strong> (replace with your number)</p>
-              <p>✉️ Email: <strong>interny@example.com</strong> (replace with your email)</p>
+              <p>📱 WhatsApp: <strong>+919618180550</strong></p>
+              <p>✉️ Email: <strong>internyinternship@gmail.com</strong></p>
               <p style="margin-top:6px;">
                 When you message, share your <strong>full name</strong>, <strong>college</strong>,
                 <strong>year</strong>, and <strong>preferred domain</strong>. We’ll guide you on the
@@ -1831,5 +1831,41 @@
       observer.observe(section);
     });
   </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // SAME Firebase config (must match login page)
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1ZS9e5N26B698qHmMkDv7IJBSE88gsWs",
+      authDomain: "interny-portal-f9ef1.firebaseapp.com",
+      projectId: "interny-portal-f9ef1",
+      storageBucket: "interny-portal-f9ef1.firebasestorage.app",
+      messagingSenderId: "371233302014",
+      appId: "1:371233302014:web:a6af15e9a1b4ef72638caf"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 🔐 Listen for login state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Logged in as:", user.email);
+
+        // OPTIONAL UI CHANGES
+        document.querySelectorAll('.btn-primary[href="login.html"]').forEach(el => el.style.display = "none");
+        document.querySelectorAll('.btn-secondary[href="signup.html"]').forEach(el => el.style.display = "none");
+
+        // Later you can:
+        // show student name
+        // show dashboard button
+      } else {
+        console.log("No user logged in");
+      }
+    });
+  </script>
+
 </body>
 </html>
